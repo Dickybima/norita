@@ -12,7 +12,8 @@ header{display:flex;justify-content:space-between;align-items:center;padding:20p
 nav{display:flex;align-items:center;gap:14px}
 .navlink{color:var(--dim);text-decoration:none;font-weight:500;font-size:15px}
 .navlink:hover{color:var(--accent)}
-.brand .logo{color:var(--accent)} .dim{color:var(--dim);font-weight:500}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:38px;height:38px;image-rendering:pixelated} .dim{color:var(--dim);font-weight:500}
 main{flex:1;display:flex;flex-direction:column;align-items:center;gap:20px;padding:16px}
 .card{width:100%;max-width:480px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:rgba(0,0,0,.25);padding:5px;border-radius:12px;margin-bottom:16px}

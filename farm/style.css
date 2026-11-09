@@ -21,7 +21,10 @@ img.px{image-rendering:pixelated;image-rendering:crisp-edges}
 header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 24px;max-width:1080px;width:100%;margin:0 auto}
 .brand{font:16px var(--pixel);color:var(--cream);text-decoration:none;white-space:nowrap;
   text-shadow:2px 0 0 var(--ink),-2px 0 0 var(--ink),0 2px 0 var(--ink),0 -2px 0 var(--ink),3px 3px 0 var(--ink)}
-.brand span{color:var(--gold)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand b{color:var(--gold);font-weight:inherit}
+.brand .logo{width:44px;height:44px;image-rendering:pixelated;filter:drop-shadow(0 3px 0 rgba(40,20,5,.45));transition:transform .2s}
+.brand:hover .logo{transform:rotate(-8deg) scale(1.06)}
 nav{display:flex;align-items:center;gap:14px}
 .navlink{font:400 20px 'Jersey 10',sans-serif;color:var(--cream);text-decoration:none;
   text-shadow:2px 0 0 var(--ink),-2px 0 0 var(--ink),0 2px 0 var(--ink),0 -2px 0 var(--ink)}
@@ -138,7 +141,8 @@ footer{text-align:center;color:var(--cream);font:400 18px 'Jersey 10',sans-serif
 }
 @media (max-width:520px){
   header{padding:14px 16px}
-  .brand{font-size:12px}
+  .brand{font-size:12px;gap:7px}
+  .brand .logo{width:34px;height:34px}
   .navlink{font-size:18px}
   header .btn{font-size:17px;padding:7px 10px}
   .plots{grid-template-columns:repeat(3,1fr);gap:9px}
