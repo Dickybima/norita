@@ -1,4 +1,4 @@
-// Kelp Farm configuration. Fill in the TODO values before going live.
+// Norita configuration. Fill in the TODO values before going live.
 // While `farmContract` is empty, the game runs in DEMO mode: progress is saved
 // in this browser only and no transaction is sent.
 window.FARM_CONFIG = {
@@ -9,9 +9,9 @@ window.FARM_CONFIG = {
     explorer: "", // TODO: Elysium block explorer URL
     nativeCurrency: { name: "HYPE", symbol: "HYPE", decimals: 18 }, // gas token on Elysium
   },
-  farmContract: "", // TODO: deployed KelpFarm address on Elysium (contracts/KelpFarm.sol)
+  farmContract: "", // TODO: deployed NoritaFarm address on Elysium (contracts/NoritaFarm.sol)
 
-  // Must match the constructor of contracts/KelpFarm.sol (same order = same id).
+  // Must match the constructor of contracts/NoritaFarm.sol (same order = same id).
   crops: [
     { name: "Turnip", sprite: "turnip", cost: 5, reward: 8, growTime: 30, xp: 2, minLevel: 1 },
     { name: "Potato", sprite: "potato", cost: 15, reward: 28, growTime: 120, xp: 6, minLevel: 1 },

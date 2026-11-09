@@ -1,6 +1,7 @@
-# Kelpbook Bridge
+# Norita Bridge
 
 A static page for moving HYPE between HyperEVM and Elysium, in both directions.
+On Elysium, HYPE pays the gas for Norita farm transactions.
 
 Open `bridge/index.html` or serve the folder with any static host (`npx serve bridge`).
 

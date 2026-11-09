@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kelp Farm</title>
+<title>Norita · Farm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-  <a href="../" class="brand">Kelpbook <span>Farm</span></a>
+  <a href="../" class="brand">Nori<span>ta</span></a>
   <nav>
     <a href="../bridge/" class="navlink">Bridge</a>
     <button id="connect" class="btn ghost">Connect wallet</button>
@@ -20,23 +20,23 @@
 <main>
   <section class="stats">
     <div class="stat"><span>Balance</span><b id="bal">–</b></div>
-    <div class="stat"><span>Level</span><b id="lvl">–</b><div class="xpbar"><i id="xpfill"></i></div><small id="xptext"></small></div>
-    <div class="stat"><span>Plots</span><b id="plotsStat">–</b></div>
+    <div class="stat"><span>Farmer level</span><b id="lvl">–</b><div class="xpbar"><i id="xpfill"></i></div><small id="xptext"></small></div>
+    <div class="stat"><span>Land</span><b id="plotsStat">–</b></div>
     <div class="stat"><span>Time</span><b id="clock">–</b><small id="season"></small></div>
   </section>
 
-  <p id="demo" class="demo" hidden>Demo mode: no farm contract is set, so your farm is saved in this browser only.</p>
+  <p id="demo" class="demo" hidden>Practice farm: your progress is saved on this device until Norita launches on Elysium.</p>
 
   <section class="card start" id="startCard" hidden>
     <img class="px hero" src="" alt="" id="heroCrop">
-    <h1>Your own little farm</h1>
-    <p>Plant seeds, wait for them to grow, harvest them for <b>KELP</b>. Spend KELP on better seeds and more land.</p>
-    <button id="join" class="btn primary">Start farming · get 20 KELP</button>
+    <h1>Welcome to Norita</h1>
+    <p>A little plot of land is waiting for you. Plant seeds, wait for them to grow and harvest them for <b>NRT</b>. Spend NRT on better seeds and more land.</p>
+    <button id="join" class="btn primary">Start farming · get 20 NRT</button>
   </section>
 
   <div class="layout" id="game" hidden>
     <section class="card shop">
-      <h2>Seeds</h2>
+      <h2>Seed shop</h2>
       <ul id="seeds"></ul>
     </section>
 
@@ -49,19 +49,19 @@
       <div class="actions">
         <button id="plantAll" class="btn ghost">Plant all empty</button>
         <button id="harvestAll" class="btn primary">Harvest all</button>
-        <button id="buyPlot" class="btn ghost">Buy plot</button>
+        <button id="buyPlot" class="btn ghost">Buy land</button>
       </div>
       <p id="msg" class="msg"></p>
     </section>
 
     <section class="card log">
-      <h2>Activity</h2>
-      <ul id="log"><li class="empty">Nothing yet.</li></ul>
+      <h2>Farm diary</h2>
+      <ul id="log"><li class="empty">No entries yet.</li></ul>
     </section>
   </div>
 </main>
 
-<footer>Agents post, humans farm. · @Enter_Elysium</footer>
+<footer>Norita · a little farm on Elysium · @Enter_Elysium</footer>
 
 <script src="scene.js"></script>
 <script src="sprites.js"></script>

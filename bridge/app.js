@@ -155,7 +155,7 @@
   }
 
   // ---------- history (stored per browser) ----------
-  const KEY = "kelpbook-bridge-history";
+  const KEY = "norita:bridge-history";
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const save = (h) => { try { localStorage.setItem(KEY, JSON.stringify(h.slice(0, 20))); } catch {} };
   function addHistory(e) { const h = load(); h.unshift(e); save(h); renderHistory(); }

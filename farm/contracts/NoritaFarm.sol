@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-/// @title KelpFarm: an on-chain farming game for Elysium.
-/// @notice The contract is also the KELP ERC-20 token. Players plant crops on plots,
-/// wait for them to grow (block.timestamp), and harvest them for newly minted KELP.
-/// Seeds and new plots are paid for by burning KELP.
-contract KelpFarm {
+/// @title NoritaFarm: an on-chain farming game for Elysium.
+/// @notice The contract is also the NRT ERC-20 token. Players plant crops on plots,
+/// wait for them to grow (block.timestamp), and harvest them for newly minted NRT.
+/// Seeds and new plots are paid for by burning NRT.
+contract NoritaFarm {
     // ---------------------------------------------------------------- ERC-20
-    string public constant name = "Kelp";
-    string public constant symbol = "KELP";
+    string public constant name = "Norita";
+    string public constant symbol = "NRT";
     uint8 public constant decimals = 18;
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
@@ -55,7 +55,7 @@ contract KelpFarm {
     }
 
     function _burn(address from, uint256 value) internal {
-        require(balanceOf[from] >= value, "not enough KELP");
+        require(balanceOf[from] >= value, "not enough NRT");
         unchecked {
             balanceOf[from] -= value;
             totalSupply -= value;
@@ -65,8 +65,8 @@ contract KelpFarm {
 
     // ---------------------------------------------------------------- game
     struct Crop {
-        uint256 cost;     // KELP burned to plant
-        uint256 reward;   // KELP minted on harvest
+        uint256 cost;     // NRT burned to plant
+        uint256 reward;   // NRT minted on harvest
         uint32 growTime;  // seconds
         uint32 xp;        // XP on harvest
         uint32 minLevel;  // level needed to plant
@@ -118,7 +118,7 @@ contract KelpFarm {
         return FIRST_PLOT_PRICE << (n - START_PLOTS);
     }
 
-    /// @notice One-time start: gives the starter KELP and the first plots.
+    /// @notice One-time start: gives the starter NRT and the first plots.
     function join() external {
         require(!joined[msg.sender], "already joined");
         joined[msg.sender] = true;
@@ -184,7 +184,7 @@ contract KelpFarm {
 
     /// @notice Everything the game page needs in one call.
     /// @return crop per plot (crop id + 1, 0 = empty), plantedAt per plot,
-    /// the player's plot count, XP and KELP balance.
+    /// the player's plot count, XP and NRT balance.
     function getFarm(address player)
         external
         view

@@ -23,15 +23,15 @@
   const img = (name, cls = "") => `<img class="px ${cls}" src="${SPR[name]}" alt="">`;
   const plural = (n, name) => `${n} ${name}${n === 1 ? "" : name.endsWith("o") ? "es" : "s"}`;
 
-  const ui = { account: null, farm: null, seed: store.get("kelpfarm:seed") ?? 0, busy: false, log: [] };
+  const ui = { account: null, farm: null, seed: store.get("norita:seed") ?? 0, busy: false, log: [] };
 
   // ---------------------------------------------------------------- engines
   // Both engines expose the same actions and return the farm as
   // { joined, bal, xp, count, plots: [{ crop /* id+1, 0 = empty */, plantedAt }] }.
 
-  // Demo: same rules as contracts/KelpFarm.sol, saved in localStorage.
+  // Demo: same rules as contracts/NoritaFarm.sol, saved in localStorage.
   const local = {
-    key: () => "kelpfarm:farm:" + (ui.account || "guest").toLowerCase(),
+    key: () => "norita:farm:" + (ui.account || "guest").toLowerCase(),
     async load() {
       return store.get(this.key()) || { joined: false, bal: 0, xp: 0, count: 0, plots: [] };
     },
@@ -48,7 +48,7 @@
       if (!p) throw new Error("No such plot");
       if (p.crop) throw new Error("Plot in use");
       if (levelOf(f.xp) < crop.minLevel) throw new Error(`${crop.name} needs level ${crop.minLevel}`);
-      if (f.bal < crop.cost) throw new Error("Not enough KELP");
+      if (f.bal < crop.cost) throw new Error("Not enough NRT");
       f.bal -= crop.cost;
       p.crop = c + 1; p.plantedAt = now();
     },
@@ -69,21 +69,21 @@
     async harvestAll() {
       const f = await this.load();
       const got = f.plots.map((_, i) => this.harvestOn(f, i)).filter(Boolean);
-      if (!got.length) throw new Error("Nothing is ready yet");
+      if (!got.length) throw new Error("Nothing is ready to harvest yet");
       this.save(f);
       return got;
     },
     async buyPlot() {
       const f = await this.load();
-      if (f.count >= C.maxPlots) throw new Error("All plots unlocked");
+      if (f.count >= C.maxPlots) throw new Error("No more land for sale");
       const price = plotPrice(f.count);
-      if (f.bal < price) throw new Error("Not enough KELP");
+      if (f.bal < price) throw new Error("Not enough NRT");
       f.bal -= price; f.count += 1; f.plots.push({ crop: 0, plantedAt: 0 });
       this.save(f);
     },
   };
 
-  // Live: reads and writes the KelpFarm contract on Elysium.
+  // Live: reads and writes the NoritaFarm contract on Elysium.
   const chain = {
     reader() {
       if (!NET.rpcUrls[0]) throw new Error("Elysium RPC URL is not configured yet.");
@@ -148,7 +148,7 @@
   function addLog(text, hash) {
     ui.log.unshift({ t: Date.now(), text, hash });
     ui.log = ui.log.slice(0, 30);
-    store.set("kelpfarm:log:" + (ui.account || "guest").toLowerCase(), ui.log);
+    store.set("norita:log:" + (ui.account || "guest").toLowerCase(), ui.log);
     renderLog();
   }
 
@@ -174,10 +174,10 @@
     const level = levelOf(ui.farm.xp);
     if (level < crop.minLevel) return msg(`${crop.name} unlocks at level ${crop.minLevel}.`, "err");
     const afford = Math.floor(ui.farm.bal / crop.cost);
-    if (!afford) return msg(`Not enough KELP for ${crop.name} (${crop.cost} KELP).`, "err");
+    if (!afford) return msg(`Not enough NRT for ${crop.name} (${crop.cost} NRT).`, "err");
     ids = ids.slice(0, afford);
     act(() => engine.plantMany(ids, c),
-      `Planted ${plural(ids.length, crop.name)} (−${fmt(crop.cost * ids.length)} KELP)`);
+      `Planted ${plural(ids.length, crop.name)} (−${fmt(crop.cost * ids.length)} NRT)`);
   }
 
   function harvestAll() {
@@ -186,7 +186,7 @@
       const counts = {};
       got.forEach((c) => (counts[c.name] = (counts[c.name] || 0) + 1));
       const what = Object.entries(counts).map(([n, k]) => plural(k, n)).join(", ");
-      return `Harvested ${what} (+${fmt(total)} KELP)`;
+      return `Harvested ${what} (+${fmt(total)} NRT)`;
     });
   }
 
@@ -205,7 +205,7 @@
     ui.account = acc || null;
     $("connect").textContent = acc ? short(acc) : "Connect wallet";
     $("connect").title = acc && Wallet.info ? `${Wallet.info.name}: ${acc}` : "";
-    ui.log = store.get("kelpfarm:log:" + (ui.account || "guest").toLowerCase()) || [];
+    ui.log = store.get("norita:log:" + (ui.account || "guest").toLowerCase()) || [];
     renderLog();
     await refresh();
   }
@@ -222,7 +222,7 @@
     $("demo").hidden = !isDemo;
     $("startCard").hidden = !(needWallet || (f && !f.joined));
     $("game").hidden = !(f && f.joined);
-    $("join").textContent = needWallet ? "Connect wallet to start" : `Start farming · get ${C.starterGrant} KELP`;
+    $("join").textContent = needWallet ? "Connect wallet to start farming" : `Start farming · get ${C.starterGrant} NRT`;
     $("join").disabled = ui.busy;
 
     if (!f || !f.joined) {
@@ -231,7 +231,7 @@
       return;
     }
     const level = levelOf(f.xp), into = f.xp % C.xpPerLevel;
-    $("bal").textContent = `${fmt(f.bal)} KELP`;
+    $("bal").textContent = `${fmt(f.bal)} NRT`;
     $("lvl").textContent = level;
     $("xpfill").style.width = `${(into / C.xpPerLevel) * 100}%`;
     $("xptext").textContent = `${into} / ${C.xpPerLevel} XP`;
@@ -244,10 +244,10 @@
     $("plantAll").disabled = ui.busy || !empties;
     $("plantAll").textContent = empties ? `Plant all empty (${empties})` : "No empty plots";
     $("harvestAll").disabled = ui.busy || !readyCount;
-    $("harvestAll").textContent = readyCount ? `Harvest all (${readyCount})` : "Nothing ready";
+    $("harvestAll").textContent = readyCount ? `Harvest all (${readyCount})` : "Nothing to harvest";
     const maxed = f.count >= C.maxPlots;
     $("buyPlot").disabled = ui.busy || maxed;
-    $("buyPlot").textContent = maxed ? "All plots unlocked" : `Buy plot · ${fmt(plotPrice(f.count))} KELP`;
+    $("buyPlot").textContent = maxed ? "No more land for sale" : `Buy land · ${fmt(plotPrice(f.count))} NRT`;
   }
 
   function renderSeeds(level) {
@@ -286,7 +286,7 @@
       ? ui.log.map((l) => `<li><span>${l.text}</span><span class="when">${
           l.hash && explorer ? `<a href="${explorer}/tx/${l.hash}" target="_blank" rel="noopener">${short(l.hash)}</a>`
             : new Date(l.t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span></li>`).join("")
-      : `<li class="empty">Nothing yet.</li>`;
+      : `<li class="empty">No entries yet.</li>`;
   }
 
   // ---------------------------------------------------------------- events
@@ -300,19 +300,19 @@
     $("season").textContent = `${k.seasonName} ${k.day} · ${night ? "Night" : "Day"}`;
   }
 
-  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to your farm! +${C.starterGrant} KELP`));
+  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to Norita! +${C.starterGrant} NRT`));
   $("plantAll").onclick = () => plantOn(emptyPlots());
   $("harvestAll").onclick = harvestAll;
   $("buyPlot").onclick = () => {
     const price = plotPrice(ui.farm.count);
-    if (ui.farm.bal < price) return msg(`A new plot costs ${fmt(price)} KELP.`, "err");
-    act(() => engine.buyPlot(), `Unlocked plot ${ui.farm.count + 1} (−${fmt(price)} KELP)`);
+    if (ui.farm.bal < price) return msg(`A new plot costs ${fmt(price)} NRT.`, "err");
+    act(() => engine.buyPlot(), `Bought plot ${ui.farm.count + 1} (−${fmt(price)} NRT)`);
   };
   $("seeds").onclick = (e) => {
     const b = e.target.closest("[data-seed]");
     if (!b) return;
     ui.seed = Number(b.dataset.seed);
-    store.set("kelpfarm:seed", ui.seed);
+    store.set("norita:seed", ui.seed);
     msg(""); render();
   };
   $("plots").onclick = (e) => {
