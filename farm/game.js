@@ -19,6 +19,10 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
   };
 
+  const SPR = window.FARM_SPRITES || {};
+  const img = (name, cls = "") => `<img class="px ${cls}" src="${SPR[name]}" alt="">`;
+  const plural = (n, name) => `${n} ${name}${n === 1 ? "" : name.endsWith("o") ? "es" : "s"}`;
+
   const ui = { account: null, farm: null, seed: store.get("kelpfarm:seed") ?? 0, busy: false, log: [] };
 
   // ---------------------------------------------------------------- engines
@@ -172,13 +176,16 @@
     if (!afford) return msg(`Not enough KELP for ${crop.name} (${crop.cost} KELP).`, "err");
     ids = ids.slice(0, afford);
     act(() => engine.plantMany(ids, c),
-      `Planted ${ids.length} × ${crop.icon} ${crop.name} (−${fmt(crop.cost * ids.length)} KELP)`);
+      `Planted ${plural(ids.length, crop.name)} (−${fmt(crop.cost * ids.length)} KELP)`);
   }
 
   function harvestAll() {
     act(() => engine.harvestAll(), (got) => {
       const total = got.reduce((s, c) => s + c.reward, 0);
-      return `Harvested ${got.map((c) => c.icon).join("")} (+${fmt(total)} KELP)`;
+      const counts = {};
+      got.forEach((c) => (counts[c.name] = (counts[c.name] || 0) + 1));
+      const what = Object.entries(counts).map(([n, k]) => plural(k, n)).join(", ");
+      return `Harvested ${what} (+${fmt(total)} KELP)`;
     });
   }
 
@@ -250,7 +257,7 @@
     $("seeds").innerHTML = CROPS.map((c, i) => {
       const locked = level < c.minLevel;
       return `<li><button class="seed${i === ui.seed ? " sel" : ""}${locked ? " locked" : ""}" data-seed="${i}">
-        <span class="icon">${locked ? "🔒" : c.icon}</span>
+        <span class="icon">${img(c.sprite)}${locked ? `<span class="lock">Lv${c.minLevel}</span>` : ""}</span>
         <span class="info"><b>${c.name}</b><small>${locked ? `Unlocks at level ${c.minLevel}` : `${dur(c.growTime)} · +${c.xp} XP`}</small></span>
         <span class="price"><span>${c.cost}</span><small>→ ${c.reward}</small></span>
       </button></li>`;
@@ -262,16 +269,16 @@
     $("plots").innerHTML = ui.farm.plots.map((p, i) => {
       if (!p.crop) {
         return `<button class="plot empty" data-plot="${i}" ${ui.busy ? "disabled" : ""}>
-          <span class="ghost">${CROPS[ui.seed].icon}</span><span class="label">Plant</span></button>`;
+          ${img(CROPS[ui.seed].sprite, "ghost")}<span class="label">Plant</span></button>`;
       }
       const crop = CROPS[p.crop - 1], left = p.plantedAt + crop.growTime - t;
       const pct = Math.min(1, (t - p.plantedAt) / crop.growTime);
       if (left <= 0) {
         return `<button class="plot ready" data-plot="${i}" ${ui.busy ? "disabled" : ""}>
-          <span class="crop">${crop.icon}</span><span class="label">Harvest</span></button>`;
+          ${img(crop.sprite, "crop")}<span class="sparkle"></span><span class="label">Harvest!</span></button>`;
       }
       return `<button class="plot growing" data-plot="${i}">
-        <span class="crop" style="transform:scale(${0.55 + pct * 0.35})">${pct < 0.5 ? "🌱" : crop.icon}</span>
+        ${img(pct < 0.4 ? "sprout" : pct < 0.8 ? "young" : crop.sprite, "crop sway")}
         <span class="label">${dur(left)}</span><span class="bar"><i style="width:${pct * 100}%"></i></span></button>`;
     }).join("");
   }
@@ -287,7 +294,16 @@
 
   // ---------------------------------------------------------------- events
   $("connect").onclick = connect;
-  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to the reef! +${C.starterGrant} KELP`));
+  function renderClock() {
+    const k = window.farmScene?.clock();
+    if (!k) return;
+    const h = Math.floor(k.hour), m = Math.floor((k.hour % 1) * 6) * 10;
+    const night = k.hour < 6 || k.hour >= 19;
+    $("clock").textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+    $("season").textContent = `${k.seasonName} ${k.day} · ${night ? "Night" : "Day"}`;
+  }
+
+  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to your farm! +${C.starterGrant} KELP`));
   $("plantAll").onclick = () => plantOn(emptyPlots());
   $("harvestAll").onclick = harvestAll;
   $("buyPlot").onclick = () => {
@@ -313,6 +329,8 @@
   }
 
   // Timers tick every second; growing plots re-render without touching the chain.
-  setInterval(() => { if (ui.farm?.joined) render(); }, 1000);
+  setInterval(() => { renderClock(); if (ui.farm?.joined) render(); }, 1000);
+  renderClock();
+  $("heroCrop").src = SPR.pumpkin || "";
   setAccount(null);
 })();

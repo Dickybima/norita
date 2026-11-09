@@ -96,11 +96,11 @@ contract KelpFarm {
 
     constructor() {
         // Keep in sync with farm/config.js
-        crops.push(Crop(5 ether, 8 ether, 30, 2, 1));        // Sea Lettuce
-        crops.push(Crop(15 ether, 28 ether, 120, 6, 1));     // Kelp
-        crops.push(Crop(40 ether, 90 ether, 300, 15, 2));    // Sea Grapes
-        crops.push(Crop(120 ether, 300 ether, 900, 40, 4));  // Coral Bloom
-        crops.push(Crop(400 ether, 1100 ether, 3600, 120, 6)); // Pearl Oyster
+        crops.push(Crop(5 ether, 8 ether, 30, 2, 1));        // Turnip
+        crops.push(Crop(15 ether, 28 ether, 120, 6, 1));     // Potato
+        crops.push(Crop(40 ether, 90 ether, 300, 15, 2));    // Corn
+        crops.push(Crop(120 ether, 300 ether, 900, 40, 4));  // Tomato
+        crops.push(Crop(400 ether, 1100 ether, 3600, 120, 6)); // Pumpkin
     }
 
     function cropCount() external view returns (uint256) {

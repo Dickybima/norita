@@ -1,7 +1,12 @@
 # Kelp Farm
 
-A farming game on Elysium. Plant sea crops on your plots, wait for them to grow,
-and harvest them for **KELP**. Spend KELP on better seeds and more plots.
+A cozy pixel-art farming game on Elysium. Plant crops on your plots, wait for them
+to grow, and harvest them for **KELP**. Spend KELP on better seeds and more plots.
+
+Behind the page runs a live farm scene (`scene.js`): a day/night cycle, four seasons,
+a farmer, chickens, a windmill and weather. The world clock follows real time
+(one in-game day = 4 minutes, one season = 7 days), so every visitor sees the same
+hour and season. Crop art lives in `sprites.js`. All art is drawn in code.
 
 Serve the repository root with any static host (`npx serve .`) and open `/farm/`.
 The page loads ethers from `../bridge/vendor/`, so keep both folders together.
@@ -16,11 +21,11 @@ The page loads ethers from `../bridge/vendor/`, so keep both folders together.
 
 | Seed | Cost | Reward | Grow time | XP | Level |
 |---|---|---|---|---|---|
-| 🥬 Sea Lettuce | 5 | 8 | 30s | 2 | 1 |
-| 🌿 Kelp | 15 | 28 | 2m | 6 | 1 |
-| 🍇 Sea Grapes | 40 | 90 | 5m | 15 | 2 |
-| 🪸 Coral Bloom | 120 | 300 | 15m | 40 | 4 |
-| 🦪 Pearl Oyster | 400 | 1100 | 1h | 120 | 6 |
+| Turnip | 5 | 8 | 30s | 2 | 1 |
+| Potato | 15 | 28 | 2m | 6 | 1 |
+| Corn | 40 | 90 | 5m | 15 | 2 |
+| Tomato | 120 | 300 | 15m | 40 | 4 |
+| Pumpkin | 400 | 1100 | 1h | 120 | 6 |
 
 ## Demo mode
 

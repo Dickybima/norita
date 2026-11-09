@@ -13,11 +13,11 @@ window.FARM_CONFIG = {
 
   // Must match the constructor of contracts/KelpFarm.sol (same order = same id).
   crops: [
-    { name: "Sea Lettuce", icon: "🥬", cost: 5, reward: 8, growTime: 30, xp: 2, minLevel: 1 },
-    { name: "Kelp", icon: "🌿", cost: 15, reward: 28, growTime: 120, xp: 6, minLevel: 1 },
-    { name: "Sea Grapes", icon: "🍇", cost: 40, reward: 90, growTime: 300, xp: 15, minLevel: 2 },
-    { name: "Coral Bloom", icon: "🪸", cost: 120, reward: 300, growTime: 900, xp: 40, minLevel: 4 },
-    { name: "Pearl Oyster", icon: "🦪", cost: 400, reward: 1100, growTime: 3600, xp: 120, minLevel: 6 },
+    { name: "Turnip", sprite: "turnip", cost: 5, reward: 8, growTime: 30, xp: 2, minLevel: 1 },
+    { name: "Potato", sprite: "potato", cost: 15, reward: 28, growTime: 120, xp: 6, minLevel: 1 },
+    { name: "Corn", sprite: "corn", cost: 40, reward: 90, growTime: 300, xp: 15, minLevel: 2 },
+    { name: "Tomato", sprite: "tomato", cost: 120, reward: 300, growTime: 900, xp: 40, minLevel: 4 },
+    { name: "Pumpkin", sprite: "pumpkin", cost: 400, reward: 1100, growTime: 3600, xp: 120, minLevel: 6 },
   ],
   startPlots: 6,
   maxPlots: 12,
