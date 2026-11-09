@@ -27,3 +27,5 @@ In `social/`:
 - `header.html`, `avatar.html` and `render.js`: the sources and the script that renders them.
 - `norita-teaser.mp4`: 31-second teaser for the first X post (H.264, 1280×720, no sound).
   `promo.html` holds its title, time-lapse and whitelist cards; `teaser.js` records it.
+- `norita-whitelist.mp4`: 21-second video for the whitelist post, showing the real whitelist page step by step.
+  Recorded by `whitelist-video.js` (cards are in `promo.html`).
