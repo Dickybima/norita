@@ -27,6 +27,23 @@ The page loads ethers from `../bridge/vendor/`, so keep both folders together.
 | Tomato | 120 | 300 | 15m | 40 | 4 |
 | Pumpkin | 400 | 1100 | 1h | 120 | 6 |
 
+## Whitelist (early access)
+
+Before playing, each visitor must complete 3 steps on X: follow the Norita account,
+like the launch post and quote it. Fill these in `config.js` under `whitelist`:
+
+- `xHandle`: the X account to follow, without `@`
+- `postUrl`: the post to like and quote, e.g. `https://x.com/NoritaFarm/status/1234567890`
+- `quoteText`: the text pre-filled in the quote (players can change it)
+
+Until `xHandle` and `postUrl` are set, the steps show "Soon" and nobody can enter.
+Set `enabled: false` to open the game to everyone.
+
+There is no X API check: a step counts as done once the player opens it, and the
+pass is saved in that browser. It keeps casual visitors out but a determined person
+can get around it. Checking follows and likes for real needs the paid X API and a
+server.
+
 ## Demo mode
 
 While `farmContract` in `config.js` is empty, the game runs in **demo mode**:

@@ -11,6 +11,16 @@ window.FARM_CONFIG = {
   },
   farmContract: "", // TODO: deployed NoritaFarm address on Elysium (contracts/NoritaFarm.sol)
 
+  // Early-access whitelist: players must follow, like and quote on X before they can play.
+  // Each step opens X; the step counts as done once the player opens it (no X API check).
+  // Until xHandle and postUrl are filled in, the steps stay locked and nobody can enter.
+  whitelist: {
+    enabled: true,
+    xHandle: "", // TODO: X account to follow, without @ (e.g. "NoritaFarm")
+    postUrl: "", // TODO: X post to like and quote (e.g. "https://x.com/NoritaFarm/status/1234567890")
+    quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Elysium. Plant, grow, harvest $NRT.",
+  },
+
   // Must match the constructor of contracts/NoritaFarm.sol (same order = same id).
   crops: [
     { name: "Turnip", sprite: "turnip", cost: 5, reward: 8, growTime: 30, xp: 2, minLevel: 1 },

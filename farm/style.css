@@ -62,7 +62,7 @@ header .btn.ghost{background:var(--wood);color:var(--cream);border-color:var(--w
 .stat b{font:15px var(--pixel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 0}
 .stat small{font-size:16px;opacity:.9}
 .xpbar{height:8px;border:2px solid var(--wood-d);background:#4a2c12;border-radius:2px;overflow:hidden}
-.xpbar i{display:block;height:100%;background:var(--gold);transition:width .4s}
+.xpbar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
 
 /* start */
 .start{max-width:500px;text-align:center;display:grid;justify-items:center;gap:14px;padding:28px 24px}
@@ -70,6 +70,25 @@ header .btn.ghost{background:var(--wood);color:var(--cream);border-color:var(--w
 .start h1{font:20px/1.4 var(--pixel)}
 .start p{color:var(--ink2)}
 .start .btn{width:100%;padding:14px;font-size:22px}
+
+/* whitelist */
+.wl{max-width:520px;text-align:center;display:grid;justify-items:center;gap:14px;padding:28px 24px}
+.wl .hero{width:96px;height:96px;animation:bob 2s ease-in-out infinite}
+.wl h1{font:20px/1.4 var(--pixel)}
+.wl p{color:var(--ink2)}
+.wl-tasks{list-style:none;padding:0;width:100%;display:grid;gap:8px;text-align:left}
+.wl-tasks li{display:flex;align-items:center;gap:12px;background:var(--paper2);border:3px solid var(--paper-edge);border-radius:6px;padding:8px 10px}
+.wl-tasks li.done{border-color:var(--leaf-d);background:#eef5d8}
+.wl-tasks .num{width:30px;height:30px;flex:none;display:grid;place-items:center;font:11px var(--pixel);color:var(--cream);background:var(--wood);border:3px solid var(--wood-d);border-radius:4px}
+.wl-tasks li.done .num{background:var(--leaf);border-color:var(--leaf-d);color:#1f3a10;font:700 18px system-ui,sans-serif}
+.wl-tasks .what{flex:1;min-width:0}
+.wl-tasks .btn{padding:5px 14px;text-decoration:none;font-size:18px}
+.wl-tasks .tag{font-size:18px;color:var(--leaf-d);padding:0 6px}
+.wl-tasks .tag.soon{color:var(--ink2)}
+.wl-progress{width:100%;height:12px;border:3px solid var(--wood-d);background:#4a2c12;border-radius:3px;overflow:hidden}
+.wl-progress i{display:block;height:100%;width:0;background:var(--leaf);transition:width .4s}
+.wl .btn.primary{width:100%;padding:14px;font-size:22px}
+.wl-note{min-height:1em;font-size:18px}
 
 /* layout */
 .layout{width:100%;display:grid;grid-template-columns:290px 1fr;grid-template-areas:"shop farm" "log farm";gap:16px;align-items:start}

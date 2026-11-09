@@ -217,9 +217,63 @@
   }
 
   // ---------------------------------------------------------------- rendering
+  // ---------------------------------------------------------------- whitelist
+  const WL = C.whitelist || { enabled: false };
+  const WL_KEY = "norita:whitelist";
+  const wlPostId = (WL.postUrl || "").match(/status(?:es)?\/(\d+)/)?.[1] || "";
+  const wlHandle = (WL.xHandle || "").replace(/^@/, "").trim();
+  const WL_TASKS = [
+    { id: "follow", label: wlHandle ? `Follow @${wlHandle} on X` : "Follow Norita on X", action: "Follow",
+      url: () => wlHandle && `https://x.com/intent/follow?screen_name=${encodeURIComponent(wlHandle)}` },
+    { id: "like", label: "Like the Norita post", action: "Like",
+      url: () => wlPostId && `https://x.com/intent/like?tweet_id=${wlPostId}` },
+    { id: "quote", label: "Quote the post with your own words", action: "Quote",
+      url: () => wlPostId && `https://x.com/intent/post?text=${encodeURIComponent(WL.quoteText || "")}&url=${encodeURIComponent(WL.postUrl)}` },
+  ];
+  const wlState = () => store.get(WL_KEY) || {};
+  const wlDone = () => !WL.enabled || store.get("norita:whitelisted") === true;
+
+  function renderWhitelist() {
+    const st = wlState(), done = WL_TASKS.filter((t) => st[t.id]).length;
+    $("wlTasks").innerHTML = WL_TASKS.map((t, i) => {
+      const url = t.url(), ok = st[t.id];
+      return `<li class="${ok ? "done" : ""}"><span class="num">${ok ? "✓" : i + 1}</span><span class="what">${t.label}</span>${
+        ok ? `<span class="tag">Done</span>`
+          : url ? `<a class="btn ghost" href="${url}" target="_blank" rel="noopener" data-task="${t.id}">${t.action}</a>`
+          : `<span class="tag soon">Soon</span>`}</li>`;
+    }).join("");
+    $("wlFill").style.width = `${(done / WL_TASKS.length) * 100}%`;
+    $("wlEnter").disabled = done < WL_TASKS.length;
+    $("wlEnter").textContent = done < WL_TASKS.length ? `Enter Norita (${done}/${WL_TASKS.length})` : "Enter Norita";
+    $("wlNote").textContent = !wlHandle || !wlPostId ? "The whitelist opens soon. Check back later!" : "";
+  }
+
+  $("wlTasks").onclick = (e) => {
+    const a = e.target.closest("[data-task]");
+    if (!a) return; // the link itself opens X in a new tab
+    const st = wlState();
+    st[a.dataset.task] = true;
+    store.set(WL_KEY, st);
+    setTimeout(renderWhitelist, 300);
+  };
+  $("wlEnter").onclick = () => {
+    if (WL_TASKS.some((t) => !wlState()[t.id])) return;
+    store.set("norita:whitelisted", true);
+    msg("");
+    render();
+  };
+
   function render() {
-    const f = ui.farm, needWallet = !isDemo && !ui.account;
-    $("demo").hidden = !isDemo;
+    const f = ui.farm, needWallet = !isDemo && !ui.account, gated = !wlDone();
+    $("demo").hidden = !isDemo || gated;
+    $("wlCard").hidden = !gated;
+    document.querySelector(".stats").hidden = gated;
+    if (gated) {
+      $("startCard").hidden = true;
+      $("game").hidden = true;
+      renderWhitelist();
+      return;
+    }
     $("startCard").hidden = !(needWallet || (f && !f.joined));
     $("game").hidden = !(f && f.joined);
     $("join").textContent = needWallet ? "Connect wallet to start farming" : `Start farming · get ${C.starterGrant} NRT`;
