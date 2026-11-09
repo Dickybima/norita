@@ -103,7 +103,7 @@
     },
     async send(method, ...args) {
       await ensureChain();
-      const signer = await new ethers.BrowserProvider(window.ethereum).getSigner();
+      const signer = await new ethers.BrowserProvider(Wallet.provider).getSigner();
       const c = new ethers.Contract(C.farmContract, C.abi, signer);
       msg("Confirm in your wallet…");
       const tx = await c[method](...args);
@@ -124,15 +124,16 @@
   const engine = isDemo ? local : chain;
 
   async function ensureChain() {
-    if (!window.ethereum) throw new Error("No wallet found. Install MetaMask or Rabby.");
+    const eth = Wallet.provider;
+    if (!eth) throw new Error("Connect a wallet first.");
     if (!NET.chainId) throw new Error("Elysium chain ID is not configured yet.");
     const hex = "0x" + NET.chainId.toString(16);
-    if ((await ethereum.request({ method: "eth_chainId" })).toLowerCase() === hex) return;
+    if ((await eth.request({ method: "eth_chainId" })).toLowerCase() === hex) return;
     try {
-      await ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] });
+      await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] });
     } catch (e) {
       if (e.code !== 4902) throw e;
-      await ethereum.request({ method: "wallet_addEthereumChain", params: [{
+      await eth.request({ method: "wallet_addEthereumChain", params: [{
         chainId: hex, chainName: NET.name, rpcUrls: NET.rpcUrls, nativeCurrency: NET.nativeCurrency,
         blockExplorerUrls: NET.explorer ? [NET.explorer] : undefined }] });
     }
@@ -197,17 +198,13 @@
     msg(`${crop.name} is ready in ${dur(p.plantedAt + crop.growTime - now())}.`);
   }
 
-  async function connect() {
-    if (!window.ethereum) return msg("No wallet found. Install MetaMask or Rabby.", "err");
-    try {
-      const [acc] = await ethereum.request({ method: "eth_requestAccounts" });
-      setAccount(acc);
-    } catch (e) { msg(e.message || "Connection rejected", "err"); }
-  }
+  // Wallet.open() shows the wallet picker; the onChange hook below updates the page.
+  const connect = () => Wallet.open();
 
   async function setAccount(acc) {
     ui.account = acc || null;
     $("connect").textContent = acc ? short(acc) : "Connect wallet";
+    $("connect").title = acc && Wallet.info ? `${Wallet.info.name}: ${acc}` : "";
     ui.log = store.get("kelpfarm:log:" + (ui.account || "guest").toLowerCase()) || [];
     renderLog();
     await refresh();
@@ -323,10 +320,7 @@
     if (b && !ui.busy) clickPlot(Number(b.dataset.plot));
   };
 
-  if (window.ethereum) {
-    ethereum.on?.("accountsChanged", (a) => setAccount(a[0]));
-    ethereum.request({ method: "eth_accounts" }).then((a) => a[0] && setAccount(a[0])).catch(() => {});
-  }
+  Wallet.init({ onChange: (w) => { if ((w.account || null) !== ui.account) setAccount(w.account); } });
 
   // Timers tick every second; growing plots re-render without touching the chain.
   setInterval(() => { renderClock(); if (ui.farm?.joined) render(); }, 1000);

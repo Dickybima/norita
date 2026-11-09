@@ -1,4 +1,8 @@
 :root{
+  --w-bg:#fbeccb; --w-card:#f3dcae; --w-text:#3b2412; --w-dim:#6e4a2a; --w-accent:#4f8f2a; --w-danger:#c8432b;
+  --w-border:4px solid #5c3a1a; --w-item-border:3px solid #e2c38a; --w-radius:8px; --w-item-radius:6px;
+  --w-shadow:inset 0 0 0 3px #e2c38a,0 6px 0 rgba(40,20,5,.45); --w-backdrop:rgba(30,18,6,.55);
+  --w-font:'Jersey 10',system-ui,sans-serif; --w-title-font:13px 'Press Start 2P',monospace; --w-small:17px;
   --ink:#3b2412; --ink2:#6e4a2a; --paper:#fbeccb; --paper2:#f3dcae; --paper-edge:#e2c38a;
   --wood:#a8703c; --wood2:#9a6634; --wood-d:#5c3a1a; --cream:#fff4dc;
   --leaf:#7cc644; --leaf-d:#4f8f2a; --gold:#f2b53a; --red:#c8432b;

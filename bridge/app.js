@@ -41,7 +41,7 @@
   function updateButton() {
     const b = $("submit"), amt = parseFloat($("amount").value);
     b.disabled = false;
-    if (!state.account) return (b.textContent = window.ethereum ? "Connect wallet" : "Install a wallet to continue");
+    if (!state.account) return (b.textContent = "Connect wallet");
     if (!amt || amt <= 0) { b.disabled = true; return (b.textContent = "Enter an amount"); }
     if (!validRecipient()) { b.disabled = true; return (b.textContent = "Invalid recipient address"); }
     if (state.balFrom !== null && amt > state.balFrom) { b.disabled = true; return (b.textContent = `Insufficient ${state.asset.symbol}`); }
@@ -51,16 +51,16 @@
   function msg(text, cls = "") { $("msg").textContent = text; $("msg").className = "msg " + cls; }
 
   // ---------- wallet ----------
-  async function connect() {
-    if (!window.ethereum) return msg("No wallet found. Install MetaMask or Rabby.", "err");
-    try {
-      const [acc] = await ethereum.request({ method: "eth_requestAccounts" });
-      state.account = acc;
-      state.provider = new ethers.BrowserProvider(window.ethereum);
-      $("connect").textContent = short(acc);
-      msg("");
-      await refreshBalances();
-    } catch (e) { msg(e.message || "Connection rejected", "err"); }
+  // Wallet.open() shows the wallet picker; onWallet() below updates the page.
+  const connect = () => Wallet.open();
+
+  function onWallet(w) {
+    state.account = w.account;
+    state.provider = w.provider ? new ethers.BrowserProvider(w.provider) : null;
+    $("connect").textContent = w.account ? short(w.account) : "Connect wallet";
+    $("connect").title = w.account && w.info ? `${w.info.name}: ${w.account}` : "";
+    msg("");
+    refreshBalances();
     updateButton();
   }
 
@@ -86,17 +86,19 @@
   async function ensureChain(net) {
     if (!net.chainId) throw new Error(`${net.name} chain ID is not configured yet.`);
     const hex = "0x" + net.chainId.toString(16);
-    const current = await ethereum.request({ method: "eth_chainId" });
+    const eth = Wallet.provider;
+    if (!eth) throw new Error("Connect a wallet first.");
+    const current = await eth.request({ method: "eth_chainId" });
     if (current.toLowerCase() === hex) return;
     try {
-      await ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] });
+      await eth.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] });
     } catch (e) {
       if (e.code !== 4902) throw e;
-      await ethereum.request({ method: "wallet_addEthereumChain", params: [{
+      await eth.request({ method: "wallet_addEthereumChain", params: [{
         chainId: hex, chainName: net.name, rpcUrls: net.rpcUrls, nativeCurrency: net.nativeCurrency,
         blockExplorerUrls: net.explorer ? [net.explorer] : undefined }] });
     }
-    state.provider = new ethers.BrowserProvider(window.ethereum);
+    state.provider = new ethers.BrowserProvider(eth);
   }
 
   // ---------- bridge ----------
@@ -195,10 +197,7 @@
   C.assets.forEach((a, i) => sel.add(new Option(a.symbol, i)));
   sel.addEventListener("change", () => { state.asset = C.assets[sel.value]; render(); refreshBalances(); });
 
-  if (window.ethereum) {
-    ethereum.on?.("accountsChanged", (a) => { state.account = a[0] || null; $("connect").textContent = a[0] ? short(a[0]) : "Connect wallet"; refreshBalances(); });
-    ethereum.request({ method: "eth_accounts" }).then((a) => { if (a[0]) connect(); }).catch(() => {});
-  }
+  Wallet.init({ onChange: onWallet });
   render();
   renderHistory();
 })();
