@@ -9,3 +9,10 @@ a round wooden badge, with a morning sky and sun behind it.
 - `make_logo.py`: regenerates `logo.svg` (`python3 make_logo.py logo.svg`).
 
 Show it with `image-rendering: pixelated` so the pixels stay sharp.
+
+## Gameplay video
+
+- `norita-gameplay.mp4`: 51-second gameplay video (H.264, 1280×720), recorded from the game.
+- `norita-gameplay.jpg`: its cover image.
+- `video-modal.js`: the pop-up player opened by the Video buttons.
+- `record-gameplay.js`: the Playwright script that recorded the video.

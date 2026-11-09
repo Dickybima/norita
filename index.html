@@ -15,7 +15,10 @@ html{background:#4aa8f0}
 body{min-height:100vh;font:400 20px/1.3 'Jersey 10',system-ui,sans-serif;color:var(--ink);display:flex;flex-direction:column;background:transparent}
 .scene{position:fixed;inset:0;width:100%;height:100%;z-index:-1;image-rendering:pixelated}
 .outline{color:var(--cream);text-shadow:2px 0 0 var(--ink),-2px 0 0 var(--ink),0 2px 0 var(--ink),0 -2px 0 var(--ink),3px 3px 0 var(--ink)}
-header{padding:18px 24px;max-width:1080px;width:100%;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 24px;max-width:1080px;width:100%;margin:0 auto}
+.vbtn{font:400 19px 'Jersey 10',sans-serif;background:var(--wood);color:var(--cream);border:3px solid var(--wood-d);border-radius:6px;padding:7px 14px;box-shadow:0 4px 0 var(--wood-d);cursor:pointer}
+.vbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--wood-d)}
+:root{--v-bg:var(--paper);--v-border:4px solid var(--wood-d);--v-text:var(--ink);--v-title-font:13px 'Press Start 2P',monospace;--v-shadow:inset 0 0 0 3px var(--paper-edge),0 8px 0 rgba(40,20,5,.5)}
 .brand{font:16px var(--pixel)}
 .brand{display:flex;align-items:center;gap:10px}
 .brand b{color:var(--gold);font-weight:inherit}
@@ -40,7 +43,8 @@ footer{text-align:center;font-size:18px;padding:24px 16px}
 </style>
 </head>
 <body>
-<header><div class="brand outline"><img class="logo" src="assets/logo.svg" alt=""><span>Nori<b>ta</b></span></div></header>
+<header><div class="brand outline"><img class="logo" src="assets/logo.svg" alt=""><span>Nori<b>ta</b></span></div>
+  <button class="vbtn" data-video-open data-video-src="assets/norita-gameplay.mp4" data-video-poster="assets/norita-gameplay.jpg">▶ Watch video</button></header>
 <main>
   <img class="hero-logo" src="assets/logo.svg" alt="Norita logo">
   <div class="sign">
@@ -48,11 +52,12 @@ footer{text-align:center;font-size:18px;padding:24px 16px}
     <p class="lead">A little pixel farm on Elysium. Grow crops, harvest NRT and watch the seasons turn.</p>
   </div>
   <div class="apps">
-    <a class="app" href="farm/"><img class="ico" id="farmIco" alt=""><b>Farm</b><small>Early access: join the whitelist on X, then plant, grow and harvest crops to earn NRT.</small><span class="go">Join whitelist</span></a>
+    <a class="app" href="farm/"><img class="ico" id="farmIco" alt=""><b>Farm</b><small>Early access: join the whitelist on X to claim your spot. The farm opens soon.</small><span class="go">Join whitelist</span></a>
     <a class="app" href="bridge/"><span class="ico">⇅</span><b>Bridge</b><small>Bring HYPE from HyperEVM to Elysium. HYPE pays the gas for your farm work.</small><span class="go">Open bridge</span></a>
   </div>
 </main>
 <footer class="outline">Norita · a little farm on Elysium · @Enter_Elysium</footer>
+<script src="assets/video-modal.js"></script>
 <script src="farm/scene.js"></script>
 <script src="farm/sprites.js"></script>
 <script>document.getElementById("farmIco").src = window.FARM_SPRITES.corn;</script>

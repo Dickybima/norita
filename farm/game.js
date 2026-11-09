@@ -231,7 +231,8 @@
       url: () => wlPostId && `https://x.com/intent/post?text=${encodeURIComponent(WL.quoteText || "")}&url=${encodeURIComponent(WL.postUrl)}` },
   ];
   const wlState = () => store.get(WL_KEY) || {};
-  const wlDone = () => !WL.enabled || store.get("norita:whitelisted") === true;
+  const wlJoined = () => store.get("norita:whitelisted") === true;
+  const wlDone = () => !WL.enabled || (wlJoined() && WL.gameOpen === true);
 
   function renderWhitelist() {
     const st = wlState(), done = WL_TASKS.filter((t) => st[t.id]).length;
@@ -243,8 +244,16 @@
           : `<span class="tag soon">Soon</span>`}</li>`;
     }).join("");
     $("wlFill").style.width = `${(done / WL_TASKS.length) * 100}%`;
+    const joined = wlJoined(), open = WL.gameOpen === true;
+    $("wlTitle").textContent = joined ? "You're on the whitelist!" : "Join the whitelist";
+    $("wlText").textContent = joined
+      ? `Early access to the Norita farm opens soon on Elysium.${wlHandle ? ` Follow @${wlHandle} for the launch date.` : ""} Until then, watch the gameplay video.`
+      : "Norita is in early access. Finish these 3 steps on X to claim your spot.";
+    $("wlEnter").hidden = joined;
+    $("wlVideo").hidden = !joined;
     $("wlEnter").disabled = done < WL_TASKS.length;
-    $("wlEnter").textContent = done < WL_TASKS.length ? `Enter Norita (${done}/${WL_TASKS.length})` : "Enter Norita";
+    const label = open ? "Enter Norita" : "Claim my whitelist spot";
+    $("wlEnter").textContent = done < WL_TASKS.length ? `${label} (${done}/${WL_TASKS.length})` : label;
     $("wlNote").textContent = !wlHandle || !wlPostId ? "The whitelist opens soon. Check back later!" : "";
   }
 

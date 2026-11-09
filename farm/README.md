@@ -37,7 +37,18 @@ like the launch post and quote it. Fill these in `config.js` under `whitelist`:
 - `quoteText`: the text pre-filled in the quote (players can change it)
 
 Until `xHandle` and `postUrl` are set, the steps show "Soon" and nobody can enter.
-Set `enabled: false` to open the game to everyone.
+
+While `gameOpen` is `false`, finishing the steps only claims a whitelist spot: the
+player sees "You're on the whitelist!" and a button for the gameplay video, but
+cannot play yet. Set `gameOpen: true` when early access opens, or `enabled: false`
+to open the game to everyone.
+
+## Gameplay video
+
+`assets/norita-gameplay.mp4` (51 s, 1280×720) is recorded from the game itself with
+`assets/record-gameplay.js`. The **▶ Video** button next to *Connect wallet* (and
+*Watch video* on the home page) opens it in a pop-up (`assets/video-modal.js`).
+To use another video, replace the file or change `data-video-src` on the buttons.
 
 There is no X API check: a step counts as done once the player opens it, and the
 pass is saved in that browser. It keeps casual visitors out but a determined person

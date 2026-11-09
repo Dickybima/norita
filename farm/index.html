@@ -15,6 +15,7 @@
   <a href="../" class="brand"><img class="logo" src="../assets/logo.svg" alt=""><span>Nori<b>ta</b></span></a>
   <nav>
     <a href="../bridge/" class="navlink">Bridge</a>
+    <button class="btn ghost video-btn" data-video-open data-video-src="../assets/norita-gameplay.mp4" data-video-poster="../assets/norita-gameplay.jpg"><span class="play">▶</span><span class="lbl"> Video</span></button>
     <button id="connect" class="btn ghost">Connect wallet</button>
   </nav>
 </header>
@@ -31,11 +32,12 @@
 
   <section class="card wl" id="wlCard" hidden>
     <img class="px hero" src="../assets/logo.svg" alt="">
-    <h1>Join the whitelist</h1>
-    <p>Norita is in early access. Finish these 3 steps on X to unlock the farm.</p>
+    <h1 id="wlTitle">Join the whitelist</h1>
+    <p id="wlText">Norita is in early access. Finish these 3 steps on X to unlock the farm.</p>
     <ol class="wl-tasks" id="wlTasks"></ol>
     <div class="wl-progress"><i id="wlFill"></i></div>
     <button id="wlEnter" class="btn primary" disabled>Enter Norita</button>
+    <button id="wlVideo" class="btn primary" hidden data-video-open data-video-src="../assets/norita-gameplay.mp4" data-video-poster="../assets/norita-gameplay.jpg">▶ Watch the gameplay video</button>
     <p class="wl-note" id="wlNote"></p>
   </section>
 
@@ -77,6 +79,7 @@
 
 <script src="scene.js"></script>
 <script src="sprites.js"></script>
+<script src="../assets/video-modal.js"></script>
 <script src="../wallet/wallet.js"></script>
 <script src="../bridge/vendor/ethers.umd.min.js"></script>
 <script src="config.js"></script>
