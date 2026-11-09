@@ -25,3 +25,5 @@ In `social/`:
 - `x-header.png`: header, 1500×500, spring morning. `x-header-fall.png` (autumn evening) and
   `x-header-night.png` (summer night) are alternatives.
 - `header.html`, `avatar.html` and `render.js`: the sources and the script that renders them.
+- `norita-teaser.mp4`: 31-second teaser for the first X post (H.264, 1280×720, no sound).
+  `promo.html` holds its title, time-lapse and whitelist cards; `teaser.js` records it.
