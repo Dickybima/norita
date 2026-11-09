@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Source for x-header.png (1500x500). Render with record/screenshot at 1500x500. -->
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+html,body{width:1500px;height:500px;overflow:hidden;background:#4aa8f0}
+.scene{position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.sign{position:absolute;left:50%;top:92px;transform:translateX(-46%);display:flex;align-items:center;gap:26px;
+  background:repeating-linear-gradient(0deg,#a8703c 0 9px,#9a6634 9px 12px);border:6px solid #5c3a1a;border-radius:10px;padding:22px 34px 22px 24px;
+  box-shadow:0 8px 0 rgba(40,20,5,.45)}
+.sign img{width:160px;height:160px;image-rendering:pixelated;filter:drop-shadow(0 5px 0 rgba(40,20,5,.45))}
+h1{font:64px 'Press Start 2P',monospace;color:#fff4dc;letter-spacing:2px;
+  text-shadow:4px 0 0 #3b2412,-4px 0 0 #3b2412,0 4px 0 #3b2412,0 -4px 0 #3b2412,6px 6px 0 #3b2412}
+h1 b{color:#f2b53a;font-weight:inherit}
+p{font:400 38px/1.15 'Jersey 10',sans-serif;color:#fff4dc;margin-top:14px;text-shadow:0 3px 0 rgba(0,0,0,.4)}
+.tags{display:flex;gap:10px;margin-top:12px}
+.tags span{white-space:nowrap;font:400 28px 'Jersey 10',sans-serif;color:#1f3a10;background:#7cc644;border:4px solid #3b2412;border-radius:6px;padding:0 12px;box-shadow:0 4px 0 #3b2412}
+.tags span.gold{background:#f2b53a}
+</style></head>
+<body>
+<div class="sign">
+  <img src="../logo.svg" alt="">
+  <div>
+    <h1>Nori<b>ta</b></h1>
+    <p>A cozy pixel farm on Elysium</p>
+    <div class="tags"><span>Plant · Grow · Harvest</span><span class="gold">$NRT</span><span>Whitelist open</span></div>
+  </div>
+</div>
+<script>window.FARM_SCENE_PX = 3;</script>
+<script src="../../farm/scene.js"></script>
+</body></html>

@@ -16,3 +16,12 @@ Show it with `image-rendering: pixelated` so the pixels stay sharp.
 - `norita-gameplay.jpg`: its cover image.
 - `video-modal.js`: the pop-up player opened by the Video buttons.
 - `record-gameplay.js`: the Playwright script that recorded the video.
+
+## X (Twitter) images
+
+In `social/`:
+
+- `x-avatar.png`: profile picture, 400×400 (X shows it as a circle; the badge fits inside).
+- `x-header.png`: header, 1500×500, spring morning. `x-header-fall.png` (autumn evening) and
+  `x-header-night.png` (summer night) are alternatives.
+- `header.html`, `avatar.html` and `render.js`: the sources and the script that renders them.

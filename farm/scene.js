@@ -3,7 +3,7 @@
 // The world clock follows real time, so every visitor sees the same hour and season.
 // Exposes window.farmScene.clock() for the page's in-game clock.
 (() => {
-  const PX = 4;            // CSS pixels per scene pixel
+  const PX = window.FARM_SCENE_PX || 4; // CSS pixels per scene pixel
   const DAY = 240;         // real seconds per in-game day
   const SEASON_DAYS = 7;   // in-game days per season
   const SEASONS = ["Spring", "Summer", "Fall", "Winter"];
