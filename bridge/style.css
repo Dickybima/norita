@@ -9,6 +9,9 @@ body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var
 .bg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,rgba(160,255,240,.04) 0 40px,transparent 40px 140px);-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%)}
 header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;max-width:1080px;width:100%;margin:0 auto}
 .brand{font-weight:700;font-size:22px;letter-spacing:-.5px}
+nav{display:flex;align-items:center;gap:14px}
+.navlink{color:var(--dim);text-decoration:none;font-weight:500;font-size:15px}
+.navlink:hover{color:var(--accent)}
 .brand .logo{color:var(--accent)} .dim{color:var(--dim);font-weight:500}
 main{flex:1;display:flex;flex-direction:column;align-items:center;gap:20px;padding:16px}
 .card{width:100%;max-width:480px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
