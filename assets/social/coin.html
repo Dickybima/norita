@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Spinning $NRT coin (1080x1080). Opens as a live animation; coin-video.js renders it
+     frame by frame through window.drawFrame(t) to make norita-coin.mp4. -->
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;box-sizing:border-box}
+html,body{width:1080px;height:1080px;overflow:hidden;background:#4aa8f0}
+canvas{position:absolute;inset:0;width:1080px;height:1080px;image-rendering:pixelated}
+.txt{position:absolute;left:0;right:0;bottom:92px;text-align:center}
+h1{font:96px 'Press Start 2P',monospace;color:#fff4dc;letter-spacing:4px;
+  text-shadow:6px 0 0 #3b2412,-6px 0 0 #3b2412,0 6px 0 #3b2412,0 -6px 0 #3b2412,9px 9px 0 #3b2412}
+h1 b{color:#f2b53a;font-weight:inherit}
+p{display:inline-block;margin-top:26px;font:400 48px 'Jersey 10',sans-serif;color:#fff4dc;background:rgba(59,36,18,.9);
+  border:5px solid #f2b53a;border-radius:10px;padding:2px 28px;box-shadow:0 7px 0 rgba(0,0,0,.35)}
+</style></head>
+<body>
+<canvas id="c" width="270" height="270"></canvas>
+<div class="txt"><h1><b>$</b>NRT</h1><p id="tag">The harvest token of Norita</p></div>
+<script>
+(() => {
+  const tag = new URLSearchParams(location.search).get("tag");
+  if (tag) document.getElementById("tag").textContent = tag;
+
+  const S = 270, LOOP = 6, SPIN = 2;          // canvas size, loop length (s), seconds per spin
+  const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  const R = (x, y, w, h, c) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
+
+  // ---- coin faces (48x48 pixel art)
+  const N = 48, C0 = 23.5;
+  function face(drawCenter) {
+    const c = document.createElement("canvas"); c.width = c.height = N;
+    const x = c.getContext("2d");
+    for (let py = 0; py < N; py++) for (let px = 0; px < N; px++) {
+      const dx = px - C0, dy = py - C0, r = Math.hypot(dx, dy);
+      if (r > 23.6) continue;
+      let col;
+      if (r > 22.4) col = "#6b3f0c";
+      else if (r > 20.4) col = dx + dy < -6 ? "#ffe08a" : dx + dy > 8 ? "#c7861c" : "#f2b53a";
+      else if (r > 19.4) col = "#b8771a";
+      else col = dx + dy < -14 ? "#f6c04e" : "#e8a630";
+      x.fillStyle = col; x.fillRect(px, py, 1, 1);
+    }
+    drawCenter(x);
+    return c;
+  }
+  const logo = new Image();
+  logo.src = "../logo.svg";
+  const FONT = { N: ["101", "111", "111", "111", "101"], R: ["110", "101", "110", "101", "101"], T: ["111", "010", "010", "010", "010"] };
+  const back = face((x) => {
+    const word = "NRT", sc = 2, gap = 2, w = word.length * 3 * sc + (word.length - 1) * gap;
+    const x0 = Math.round((N - w) / 2), oy = 19;
+    // two passes: light emboss first, then the letters, so they never overwrite each other
+    for (const [col, d] of [["#ffe08a", -1], ["#8a560f", 0]]) {
+      let ox = x0;
+      for (const ch of word) {
+        FONT[ch].forEach((row, ry) => [...row].forEach((bit, rx) => {
+          if (bit === "1") { x.fillStyle = col; x.fillRect(ox + rx * sc + d, oy + ry * sc + d, sc, sc); }
+        }));
+        ox += 3 * sc + gap;
+      }
+    }
+    // a small sprout above the letters
+    x.fillStyle = "#4caf3a"; x.fillRect(23, 12, 2, 5); x.fillRect(20, 11, 3, 2); x.fillRect(25, 10, 3, 2);
+    x.fillStyle = "#2e7d32"; x.fillRect(23, 16, 2, 1);
+  });
+  let front = null;
+  logo.onload = () => {
+    front = face((x) => { x.imageSmoothingEnabled = false; x.drawImage(logo, 8, 8, 32, 32); });
+    window.coinReady = true;
+  };
+
+  // ---- deterministic sparkles
+  const sparks = Array.from({ length: 14 }, (_, i) => ({
+    x: 30 + ((i * 97) % 210), y: 18 + ((i * 53) % 150), ph: (i * 0.37) % 1, s: 1 + (i % 3 === 0),
+  }));
+
+  function sky() {
+    const bands = ["#3f98e6", "#4aa8f0", "#5db4f2", "#6fbdf5", "#86c8f6", "#9bd3f7", "#b3def9"];
+    const h = 190 / bands.length;
+    bands.forEach((c, i) => R(0, Math.round(i * h), S, Math.ceil(h) + 1, c));
+  }
+
+  function rays(t) {
+    const cx = 135, cy = 108, n = 12, rot = (t / LOOP) * (2 * Math.PI / n) * 2;
+    ctx.save(); ctx.globalAlpha = 0.18; ctx.fillStyle = "#fff6c0";
+    for (let i = 0; i < n; i += 2) {
+      const a0 = rot + (i * 2 * Math.PI) / n, a1 = a0 + (2 * Math.PI) / n;
+      ctx.beginPath(); ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(a0) * 300, cy + Math.sin(a0) * 300);
+      ctx.lineTo(cx + Math.cos(a1) * 300, cy + Math.sin(a1) * 300);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function ground() {
+    for (let x = 0; x < S; x++) {
+      const far = 168 - Math.round(8 + 6 * Math.sin(x * 0.03 + 1) + 4 * Math.sin(x * 0.08 + 2));
+      R(x, far, 1, S, "#8cc07a");
+    }
+    for (let x = 0; x < S; x++) {
+      const near = 182 - Math.round(4 + 3 * Math.sin(x * 0.05 + 4));
+      R(x, near, 1, S, "#66aa4a");
+    }
+    R(0, 186, S, S, "#72c04a");
+    for (let y = 192; y < S; y += 6) { R(0, y, S, 3, "#8a5a2e"); R(0, y, S, 1, "#6e4522"); }
+  }
+
+  function coin(t) {
+    if (!front) return;
+    const th = (2 * Math.PI * t) / SPIN, c = Math.cos(th), w = Math.abs(c);
+    const bob = Math.round(3 * Math.sin((2 * Math.PI * t) / 3));
+    const size = 96, cx = 135, cy = 104 + bob;
+    // shadow on the ground
+    ctx.save(); ctx.globalAlpha = 0.28; ctx.fillStyle = "#1f3a10";
+    const sw = Math.round(30 + 10 * w - bob), sy = 182;
+    ctx.beginPath(); ctx.ellipse(cx, sy, sw, 5, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    // edge thickness, drawn as a dark-gold slab behind the face
+    const fw = Math.max(2, Math.round(size * w)), edge = Math.round(6 * Math.sqrt(1 - w * w));
+    const dir = Math.sin(th) >= 0 ? 1 : -1;
+    for (let i = 1; i <= edge; i++) {
+      ctx.fillStyle = i === edge ? "#6b3f0c" : "#b8771a";
+      for (let y = -size / 2; y < size / 2; y++) {
+        const half = Math.sqrt(Math.max(0, (size / 2) ** 2 - (y + 0.5) ** 2)) * w;
+        ctx.fillRect(Math.round(cx - half + dir * i), cy + y, Math.max(1, Math.round(half * 2)), 1);
+      }
+    }
+    ctx.drawImage(c >= 0 ? front : back, 0, 0, N, N, Math.round(cx - fw / 2), cy - size / 2, fw, size);
+    // glint sweeping across the face
+    const g = (t % SPIN) / SPIN;
+    if (w > 0.6 && g > 0.05 && g < 0.25) {
+      ctx.save(); ctx.globalAlpha = 0.55; ctx.fillStyle = "#fffbe0";
+      const gx = Math.round(cx - fw / 2 + fw * ((g - 0.05) / 0.2));
+      for (let y = -40; y < 40; y += 1) ctx.fillRect(gx + Math.round(y * 0.4), cy + y, 3, 1);
+      ctx.restore();
+    }
+  }
+
+  function sparkle(t) {
+    sparks.forEach((s) => {
+      const k = Math.sin(2 * Math.PI * (t / LOOP * 2 + s.ph));
+      if (k < 0.2) return;
+      const a = Math.min(1, k), x = s.x, y = s.y, n = s.s + (k > 0.8 ? 1 : 0);
+      ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = "#fff6c0";
+      ctx.fillRect(x, y - n, 1, 2 * n + 1); ctx.fillRect(x - n, y, 2 * n + 1, 1);
+      ctx.restore();
+    });
+  }
+
+  window.drawFrame = (t) => {
+    sky(); rays(t); ground(); sparkle(t); coin(t);
+  };
+  if (!/render/.test(location.search)) {
+    const t0 = performance.now();
+    const loop = (now) => { window.drawFrame(((now - t0) / 1000) % LOOP); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();
+</script>
+</body></html>
