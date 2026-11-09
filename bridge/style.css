@@ -50,5 +50,6 @@ select{background:rgba(0,0,0,.3);color:var(--text);border:1px solid var(--line);
 .history li.empty{color:var(--dim);justify-content:center}
 .history a{color:var(--accent);text-decoration:none;font-family:'JetBrains Mono',monospace}
 .status{font-size:12px;color:var(--dim)} .status.done{color:var(--accent)}
+footer a{color:var(--accent);text-decoration:none}
 footer{text-align:center;color:var(--dim);font:500 12px 'JetBrains Mono',monospace;padding:24px 16px}
 @media (max-width:420px){ #amount,.receive{font-size:20px} .net span.name{display:none} }

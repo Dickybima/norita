@@ -16,8 +16,8 @@ window.FARM_CONFIG = {
   // Until xHandle and postUrl are filled in, the steps stay locked and nobody can enter.
   whitelist: {
     enabled: true,
-    xHandle: "", // TODO: X account to follow, without @ (e.g. "NoritaFarm")
-    postUrl: "", // TODO: X post to like and quote (e.g. "https://x.com/NoritaFarm/status/1234567890")
+    xHandle: "noritafarm", // X account to follow, without @
+    postUrl: "https://x.com/noritafarm/status/2119773944567767143", // X post to like and quote
     quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Elysium. Plant, grow, harvest $NRT.",
     // false: whitelisted players get their spot but cannot play yet (they can watch the video).
     // Set to true when early access opens.
