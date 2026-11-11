@@ -48,7 +48,7 @@
       if (!p) throw new Error("No such plot");
       if (p.crop) throw new Error("Plot in use");
       if (levelOf(f.xp) < crop.minLevel) throw new Error(`${crop.name} needs level ${crop.minLevel}`);
-      if (f.bal < crop.cost) throw new Error("Not enough NRT");
+      if (f.bal < crop.cost) throw new Error("Not enough NORITA");
       f.bal -= crop.cost;
       p.crop = c + 1; p.plantedAt = now();
     },
@@ -77,7 +77,7 @@
       const f = await this.load();
       if (f.count >= C.maxPlots) throw new Error("No more land for sale");
       const price = plotPrice(f.count);
-      if (f.bal < price) throw new Error("Not enough NRT");
+      if (f.bal < price) throw new Error("Not enough NORITA");
       f.bal -= price; f.count += 1; f.plots.push({ crop: 0, plantedAt: 0 });
       this.save(f);
     },
@@ -174,10 +174,10 @@
     const level = levelOf(ui.farm.xp);
     if (level < crop.minLevel) return msg(`${crop.name} unlocks at level ${crop.minLevel}.`, "err");
     const afford = Math.floor(ui.farm.bal / crop.cost);
-    if (!afford) return msg(`Not enough NRT for ${crop.name} (${crop.cost} NRT).`, "err");
+    if (!afford) return msg(`Not enough NORITA for ${crop.name} (${crop.cost} NORITA).`, "err");
     ids = ids.slice(0, afford);
     act(() => engine.plantMany(ids, c),
-      `Planted ${plural(ids.length, crop.name)} (−${fmt(crop.cost * ids.length)} NRT)`);
+      `Planted ${plural(ids.length, crop.name)} (−${fmt(crop.cost * ids.length)} NORITA)`);
   }
 
   function harvestAll() {
@@ -186,7 +186,7 @@
       const counts = {};
       got.forEach((c) => (counts[c.name] = (counts[c.name] || 0) + 1));
       const what = Object.entries(counts).map(([n, k]) => plural(k, n)).join(", ");
-      return `Harvested ${what} (+${fmt(total)} NRT)`;
+      return `Harvested ${what} (+${fmt(total)} NORITA)`;
     });
   }
 
@@ -285,7 +285,7 @@
     }
     $("startCard").hidden = !(needWallet || (f && !f.joined));
     $("game").hidden = !(f && f.joined);
-    $("join").textContent = needWallet ? "Connect wallet to start farming" : `Start farming · get ${C.starterGrant} NRT`;
+    $("join").textContent = needWallet ? "Connect wallet to start farming" : `Start farming · get ${C.starterGrant} NORITA`;
     $("join").disabled = ui.busy;
 
     if (!f || !f.joined) {
@@ -294,7 +294,7 @@
       return;
     }
     const level = levelOf(f.xp), into = f.xp % C.xpPerLevel;
-    $("bal").textContent = `${fmt(f.bal)} NRT`;
+    $("bal").textContent = `${fmt(f.bal)} NORITA`;
     $("lvl").textContent = level;
     $("xpfill").style.width = `${(into / C.xpPerLevel) * 100}%`;
     $("xptext").textContent = `${into} / ${C.xpPerLevel} XP`;
@@ -310,7 +310,7 @@
     $("harvestAll").textContent = readyCount ? `Harvest all (${readyCount})` : "Nothing to harvest";
     const maxed = f.count >= C.maxPlots;
     $("buyPlot").disabled = ui.busy || maxed;
-    $("buyPlot").textContent = maxed ? "No more land for sale" : `Buy land · ${fmt(plotPrice(f.count))} NRT`;
+    $("buyPlot").textContent = maxed ? "No more land for sale" : `Buy land · ${fmt(plotPrice(f.count))} NORITA`;
   }
 
   function renderSeeds(level) {
@@ -363,13 +363,13 @@
     $("season").textContent = `${k.seasonName} ${k.day} · ${night ? "Night" : "Day"}`;
   }
 
-  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to Norita! +${C.starterGrant} NRT`));
+  $("join").onclick = () => (!isDemo && !ui.account ? connect() : act(() => engine.join(), `Welcome to Norita! +${C.starterGrant} NORITA`));
   $("plantAll").onclick = () => plantOn(emptyPlots());
   $("harvestAll").onclick = harvestAll;
   $("buyPlot").onclick = () => {
     const price = plotPrice(ui.farm.count);
-    if (ui.farm.bal < price) return msg(`A new plot costs ${fmt(price)} NRT.`, "err");
-    act(() => engine.buyPlot(), `Bought plot ${ui.farm.count + 1} (−${fmt(price)} NRT)`);
+    if (ui.farm.bal < price) return msg(`A new plot costs ${fmt(price)} NORITA.`, "err");
+    act(() => engine.buyPlot(), `Bought plot ${ui.farm.count + 1} (−${fmt(price)} NORITA)`);
   };
   $("seeds").onclick = (e) => {
     const b = e.target.closest("[data-seed]");

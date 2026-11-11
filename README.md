@@ -1,12 +1,12 @@
 # Norita
 
 A cozy pixel farming game on Robinhood Chain. Plant seeds, watch them grow and harvest them
-for **NRT**. Level up to unlock better seeds and buy more land, in a world with day,
+for **NORITA**. Level up to unlock better seeds and buy more land, in a world with day,
 night and four seasons.
 
 X: [@noritafarm](https://x.com/noritafarm)
 
-Official $NRT contract address: `0x38bdcfcd75da18f8364553a90eea9e4a8a0cd122`
+Official $NORITA contract address: `0x38bdcfcd75da18f8364553a90eea9e4a8a0cd122`
 
 ## What's in this repo
 

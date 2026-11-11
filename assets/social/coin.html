@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Spinning $NRT coin (1080x1080). Opens as a live animation; coin-video.js renders it
+<!-- Spinning $NORITA coin (1080x1080). Opens as a live animation; coin-video.js renders it
      frame by frame through window.drawFrame(t) to make norita-coin.mp4. -->
 <html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@ p{display:inline-block;margin-top:26px;font:400 48px 'Jersey 10',sans-serif;colo
 </style></head>
 <body>
 <canvas id="c" width="270" height="270"></canvas>
-<div class="txt"><h1><b>$</b>NRT</h1><p id="tag">The harvest token of Norita</p></div>
+<div class="txt"><h1><b>$</b>NORITA</h1><p id="tag">The harvest token of Norita</p></div>
 <script>
 (() => {
   const tag = new URLSearchParams(location.search).get("tag");
@@ -47,10 +47,11 @@ p{display:inline-block;margin-top:26px;font:400 48px 'Jersey 10',sans-serif;colo
   }
   const logo = new Image();
   logo.src = "../logo.svg";
-  const FONT = { N: ["101", "111", "111", "111", "101"], R: ["110", "101", "110", "101", "101"], T: ["111", "010", "010", "010", "010"] };
+  const FONT = { N: ["101", "111", "111", "111", "101"], O: ["111", "101", "101", "101", "111"], R: ["110", "101", "110", "101", "101"],
+    I: ["111", "010", "010", "010", "111"], T: ["111", "010", "010", "010", "010"], A: ["010", "101", "111", "101", "101"] };
   const back = face((x) => {
-    const word = "NRT", sc = 2, gap = 2, w = word.length * 3 * sc + (word.length - 1) * gap;
-    const x0 = Math.round((N - w) / 2), oy = 19;
+    const word = "NORITA", sc = 1, gap = 1, w = word.length * 3 * sc + (word.length - 1) * gap;
+    const x0 = Math.round((N - w) / 2), oy = 22;
     // two passes: light emboss first, then the letters, so they never overwrite each other
     for (const [col, d] of [["#ffe08a", -1], ["#8a560f", 0]]) {
       let ox = x0;

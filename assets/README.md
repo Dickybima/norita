@@ -29,5 +29,5 @@ In `social/`:
   `promo.html` holds its title, time-lapse and whitelist cards; `teaser.js` records it.
 - `norita-whitelist.mp4`: 21-second video for the whitelist post, showing the real whitelist page step by step.
   Recorded by `whitelist-video.js` (cards are in `promo.html`).
-- `norita-coin.mp4`, `norita-coin-montra.mp4`, `norita-coin.gif`: 6-second looping spinning $NRT coin (1080×1080),
+- `norita-coin.mp4`, `norita-coin-montra.mp4`, `norita-coin.gif`: 6-second looping spinning $NORITA coin (1080×1080),
   with "The harvest token of Norita" or "Now live on @MontraXYZ". Source `coin.html`, renderer `coin-video.js`.

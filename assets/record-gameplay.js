@@ -62,7 +62,7 @@ const at=(season,day,hour)=>((season*7+day-1+28*1000)+hour/24-0.3)*240*1000;
  await p.evaluate(()=>window.__press()); await p.click('.app[href="farm/"]');
  // B. start
  await p.waitForSelector('#join'); await fonts(); await W(400);
- await cap('Start with 6 plots of land and 20 NRT'); await W(1600);
+ await cap('Start with 6 plots of land and 20 NORITA'); await W(1600);
  await tap('#join'); await W(1200);
  // C. plant
  await cap('Pick a seed, then tap a plot to plant it'); await W(600);
@@ -72,7 +72,7 @@ const at=(season,day,hour)=>((season*7+day-1+28*1000)+hour/24-0.3)*240*1000;
  // D. grow
  await cap('Crops grow in real time'); await p.evaluate(()=>window.__speed=7); await W(4600); await p.evaluate(()=>window.__speed=1);
  // E. harvest
- await cap('Harvest them for NRT and XP'); await W(500);
+ await cap('Harvest them for NORITA and XP'); await W(500);
  await tap('#harvestAll'); await W(2200);
  // F. mid game
  await cap(''); await W(300);
@@ -80,7 +80,7 @@ const at=(season,day,hour)=>((season*7+day-1+28*1000)+hour/24-0.3)*240*1000;
    localStorage.setItem('norita:farm:guest',JSON.stringify({joined:true,bal:760,xp:255,count:8,plots:[
      {crop:2,plantedAt:n-200},{crop:2,plantedAt:n-130},{crop:3,plantedAt:n-120},{crop:3,plantedAt:n-60},
      {crop:1,plantedAt:n-40},{crop:0,plantedAt:0},{crop:0,plantedAt:0},{crop:0,plantedAt:0}]}));
-   localStorage.setItem('norita:log:guest',JSON.stringify([{t:Date.now(),text:'Harvested 6 Potatoes (+168 NRT)'},{t:Date.now(),text:'Bought plot 7 (−50 NRT)'},{t:Date.now(),text:'Planted 2 Corns (−80 NRT)'}]));});
+   localStorage.setItem('norita:log:guest',JSON.stringify([{t:Date.now(),text:'Harvested 6 Potatoes (+168 NORITA)'},{t:Date.now(),text:'Bought plot 7 (−50 NORITA)'},{t:Date.now(),text:'Planted 2 Corns (−80 NORITA)'}]));});
  await p.reload(); await p.waitForSelector('#plots .plot'); await fonts(); await W(400);
  await cap('Level up to unlock better seeds'); await W(900);
  await tap('[data-seed="2"]'); await W(400);
