@@ -1,6 +1,6 @@
 # Norita
 
-A cozy pixel-art farming game on Elysium. Plant crops on your plots, wait for them
+A cozy pixel-art farming game on Robinhood Chain. Plant crops on your plots, wait for them
 to grow, and harvest them for **NRT**. Spend NRT on better seeds and more plots.
 
 Behind the page runs a live farm scene (`scene.js`): a day/night cycle, four seasons,
@@ -61,12 +61,12 @@ While `farmContract` in `config.js` is empty, the game runs in **demo mode**:
 the same rules run in the browser and progress is saved in `localStorage`.
 No wallet is needed.
 
-## Going live on Elysium
+## Going live on Robinhood Chain
 
-1. Deploy `contracts/NoritaFarm.sol` (Solidity ^0.8.24, no dependencies) to Elysium,
+1. Deploy `contracts/NoritaFarm.sol` (Solidity ^0.8.24, no dependencies) to Robinhood Chain (chain ID 4663, gas in ETH),
    for example with Remix or Foundry. The contract is also the NRT (Norita) ERC-20 token.
-2. Fill in `config.js`: `network.chainId`, `network.rpcUrls`, `network.explorer`
-   and `farmContract`.
+2. Fill in `farmContract` in `config.js`. The Robinhood Chain network settings are
+   already there; check the explorer URL and use a dedicated RPC provider for production.
 3. If you change crops or prices, change them in **both** the contract constructor
    and `config.js` (same order). The page uses `config.js` for display, the contract
    decides what actually happens.

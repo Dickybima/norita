@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-/// @title NoritaFarm: an on-chain farming game for Elysium.
+/// @title NoritaFarm: an on-chain farming game for Robinhood Chain.
 /// @notice The contract is also the NRT ERC-20 token. Players plant crops on plots,
 /// wait for them to grow (block.timestamp), and harvest them for newly minted NRT.
 /// Seeds and new plots are paid for by burning NRT.

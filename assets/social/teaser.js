@@ -35,7 +35,7 @@ const at=(season,day,hour)=>((season*7+day-1+28*1000)+hour/24-0.3)*240*1000;
      window.__cap=(t)=>{ if(!t){cap.classList.remove('on');return;} cap.textContent=t; cap.classList.add('on'); };
      window.__move=(x,y)=>{cur.style.left=x+'px';cur.style.top=y+'px';sessionStorage.setItem('cur',JSON.stringify([x,y]));};
      window.__press=()=>{cur.classList.add('down');setTimeout(()=>cur.classList.remove('down'),150);};
-     window.__end=()=>{const e=document.createElement('div');e.id='end';e.innerHTML='<img src="/assets/logo.svg"><h1>Nori<b>ta</b></h1><p>A cozy pixel farm on Elysium</p><p>Join the whitelist on X · Early access soon</p>';document.body.append(e);requestAnimationFrame(()=>e.classList.add('on'));};
+     window.__end=()=>{const e=document.createElement('div');e.id='end';e.innerHTML='<img src="/assets/logo.svg"><h1>Nori<b>ta</b></h1><p>A cozy pixel farm on Robinhood Chain</p><p>Join the whitelist on X · Early access soon</p>';document.body.append(e);requestAnimationFrame(()=>e.classList.add('on'));};
    });
  }, at(0,2,9));
  await ctx.addInitScript(()=>{

@@ -3,13 +3,13 @@
 // in this browser only and no transaction is sent.
 window.FARM_CONFIG = {
   network: {
-    name: "Elysium",
-    chainId: 0, // TODO: Elysium mainnet chain ID
-    rpcUrls: [""], // TODO: Elysium RPC URL
-    explorer: "", // TODO: Elysium block explorer URL
-    nativeCurrency: { name: "HYPE", symbol: "HYPE", decimals: 18 }, // gas token on Elysium
+    name: "Robinhood Chain",
+    chainId: 4663, // Robinhood Chain mainnet (0x1237)
+    rpcUrls: ["https://rpc.mainnet.chain.robinhood.com"], // public, rate-limited; use a provider for production
+    explorer: "https://robinhoodchain.blockscout.com", // confirm on Robinhood's docs before launch
+    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 }, // gas on Robinhood Chain is ETH
   },
-  farmContract: "", // TODO: deployed NoritaFarm address on Elysium (contracts/NoritaFarm.sol)
+  farmContract: "", // TODO: deployed NoritaFarm address on Robinhood Chain (contracts/NoritaFarm.sol)
 
   // Early-access whitelist: players must follow, like and quote on X before they can play.
   // Each step opens X; the step counts as done once the player opens it (no X API check).
@@ -18,7 +18,7 @@ window.FARM_CONFIG = {
     enabled: true,
     xHandle: "noritafarm", // X account to follow, without @
     postUrl: "https://x.com/noritafarm/status/2119773944567767143", // X post to like and quote
-    quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Elysium. Plant, grow, harvest $NRT.",
+    quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Robinhood Chain. Plant, grow, harvest $NRT.",
     // false: whitelisted players get their spot but cannot play yet (they can watch the video).
     // Set to true when early access opens.
     gameOpen: false,

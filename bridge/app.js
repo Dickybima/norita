@@ -1,9 +1,12 @@
 (() => {
   const C = window.BRIDGE_CONFIG, N = C.networks;
   const $ = (id) => document.getElementById(id);
-  const state = { dir: "hype", account: null, provider: null, asset: C.assets[0], balFrom: null };
+  const KEYS = Object.keys(N);
+  const other = (k) => KEYS.find((x) => x !== k);
+  const state = { dir: C.start || KEYS[0], account: null, provider: null, asset: C.assets[0], balFrom: null };
   const from = () => N[state.dir];
-  const to = () => N[state.dir === "hype" ? "elysium" : "hype"];
+  const to = () => N[other(state.dir)];
+  const eta = (m) => (m >= 1440 ? `~${Math.round(m / 1440)} days` : m >= 120 ? `~${Math.round(m / 60)} hours` : `~${m} min`);
   const isDemo = () => !from().bridgeContract;
   const fmt = (v, d = 6) => Number(v).toLocaleString("en-US", { maximumFractionDigits: d });
   const short = (a) => a.slice(0, 6) + "…" + a.slice(-4);
@@ -18,7 +21,7 @@
     $("netTo").innerHTML = netHTML(to());
     $("destName").textContent = to().name;
     $("demo").hidden = !isDemo();
-    $("eta").textContent = `~${C.etaMinutes[to().key]} min`;
+    $("eta").textContent = eta(C.etaMinutes[to().key]);
     updateQuote();
     updateButton();
   }
@@ -143,7 +146,7 @@
         msg("Transaction sent, waiting for confirmation…");
         await tx.wait();
         setStatus(entry.id, "confirmed");
-        msg(`Sent. Funds arrive on ${dst.name} in ~${C.etaMinutes[dst.key]} min.`, "ok");
+        msg(`Sent. Funds arrive on ${dst.name} in ${eta(C.etaMinutes[dst.key])}.`, "ok");
       }
       $("amount").value = "";
       updateQuote();
@@ -178,7 +181,7 @@
   // ---------- events ----------
   function setDir(d) { state.dir = d; state.balFrom = null; render(); refreshBalances(); }
   document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => setDir(t.dataset.dir)));
-  $("flip").addEventListener("click", () => setDir(state.dir === "hype" ? "elysium" : "hype"));
+  $("flip").addEventListener("click", () => setDir(other(state.dir)));
   $("amount").addEventListener("input", (e) => {
     e.target.value = e.target.value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
     updateQuote(); updateButton();
@@ -187,7 +190,7 @@
   $("max").addEventListener("click", () => {
     if (state.balFrom === null) return;
     // leave a little native balance for gas
-    const v = Math.max(0, state.balFrom - (state.asset.address[from().key] === "native" ? 0.01 : 0));
+    const v = Math.max(0, state.balFrom - (state.asset.address[from().key] === "native" ? (C.gasReserve ?? 0.002) : 0));
     $("amount").value = v ? String(Math.floor(v * 1e6) / 1e6) : "";
     updateQuote(); updateButton();
   });

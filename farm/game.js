@@ -83,10 +83,10 @@
     },
   };
 
-  // Live: reads and writes the NoritaFarm contract on Elysium.
+  // Live: reads and writes the NoritaFarm contract on Robinhood Chain.
   const chain = {
     reader() {
-      if (!NET.rpcUrls[0]) throw new Error("Elysium RPC URL is not configured yet.");
+      if (!NET.rpcUrls[0]) throw new Error(`${NET.name} RPC URL is not configured yet.`);
       this._r ||= new ethers.Contract(C.farmContract, C.abi,
         new ethers.JsonRpcProvider(NET.rpcUrls[0], NET.chainId || undefined, { staticNetwork: !!NET.chainId }));
       return this._r;
@@ -107,7 +107,7 @@
       const c = new ethers.Contract(C.farmContract, C.abi, signer);
       msg("Confirm in your wallet…");
       const tx = await c[method](...args);
-      msg("Waiting for Elysium…");
+      msg(`Waiting for ${NET.name}…`);
       await tx.wait();
       return tx.hash;
     },
@@ -126,7 +126,7 @@
   async function ensureChain() {
     const eth = Wallet.provider;
     if (!eth) throw new Error("Connect a wallet first.");
-    if (!NET.chainId) throw new Error("Elysium chain ID is not configured yet.");
+    if (!NET.chainId) throw new Error(`${NET.name} chain ID is not configured yet.`);
     const hex = "0x" + NET.chainId.toString(16);
     if ((await eth.request({ method: "eth_chainId" })).toLowerCase() === hex) return;
     try {
@@ -247,7 +247,7 @@
     const joined = wlJoined(), open = WL.gameOpen === true;
     $("wlTitle").textContent = joined ? "You're on the whitelist!" : "Join the whitelist";
     $("wlText").textContent = joined
-      ? `Early access to the Norita farm opens soon on Elysium.${wlHandle ? ` Follow @${wlHandle} for the launch date.` : ""} Until then, watch the gameplay video.`
+      ? `Early access to the Norita farm opens soon on Robinhood Chain.${wlHandle ? ` Follow @${wlHandle} for the launch date.` : ""} Until then, watch the gameplay video.`
       : "Norita is in early access. Finish these 3 steps on X to claim your spot.";
     $("wlEnter").hidden = joined;
     $("wlVideo").hidden = !joined;
