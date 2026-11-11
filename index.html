@@ -30,7 +30,7 @@ main{flex:1;display:flex;flex-direction:column;align-items:center;justify-conten
 .sign{background:repeating-linear-gradient(0deg,var(--wood) 0 7px,var(--wood2) 7px 9px);border:4px solid var(--wood-d);border-radius:8px;padding:22px 26px;box-shadow:0 6px 0 rgba(40,20,5,.45);max-width:640px}
 h1{font:clamp(18px,4vw,30px)/1.5 var(--pixel)}
 .lead{color:var(--cream);font-size:22px;margin-top:10px;text-shadow:0 2px 0 rgba(0,0,0,.35)}
-.apps{display:grid;grid-template-columns:repeat(2,minmax(0,280px));gap:16px;width:100%;justify-content:center}
+.apps{display:grid;grid-template-columns:minmax(0,320px);gap:16px;width:100%;justify-content:center}
 .app{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;text-decoration:none;color:var(--ink);background:var(--paper);border:4px solid var(--wood-d);border-radius:8px;padding:18px;
   box-shadow:inset 0 0 0 3px var(--paper-edge),0 6px 0 rgba(40,20,5,.45);transition:transform .1s}
 .app:hover{transform:translateY(-3px)}
@@ -40,23 +40,6 @@ h1{font:clamp(18px,4vw,30px)/1.5 var(--pixel)}
 .app .go{margin-top:8px;font-size:20px;background:var(--leaf);border:3px solid var(--ink);border-radius:6px;padding:3px 12px;box-shadow:0 3px 0 var(--ink)}
 footer{text-align:center;font-size:18px;padding:24px 16px}
 footer a{color:var(--gold);text-decoration:none}
-.token{display:flex;align-items:center;gap:18px;width:100%;max-width:660px;text-align:left;background:var(--paper);border:4px solid var(--wood-d);border-radius:8px;padding:16px 18px;
-  box-shadow:inset 0 0 0 3px var(--paper-edge),0 6px 0 rgba(40,20,5,.45)}
-.coin{flex:none;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#ffe08a,#f2b53a 45%,#c7861c);
-  border:4px solid #6b3f0c;box-shadow:inset 0 0 0 3px #b8771a,0 5px 0 rgba(40,20,5,.4);animation:spin 4s ease-in-out infinite}
-.coin img{width:58px;height:58px;image-rendering:pixelated}
-@keyframes spin{0%,70%,100%{transform:scaleX(1)}80%{transform:scaleX(.08)}90%{transform:scaleX(1)}}
-.token-body{flex:1;min-width:0}
-.token h2{font:14px/1.5 var(--pixel);color:var(--ink)}
-.token h2 b{color:#c7861c;font-weight:inherit}
-.token-sub{color:var(--ink2);font-size:18px;margin-top:2px}
-.ca{display:flex;align-items:center;gap:8px;margin-top:6px;background:var(--paper2);border:3px solid var(--paper-edge);border-radius:6px;padding:6px 6px 6px 10px}
-.ca code{flex:1;min-width:0;font:13.5px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);word-break:break-all;user-select:all}
-.ca button{flex:none;font:400 19px 'Jersey 10',sans-serif;background:var(--leaf);color:#1f3a10;border:3px solid var(--ink);border-radius:6px;padding:3px 12px;box-shadow:0 3px 0 var(--ink);cursor:pointer}
-.ca button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
-.warn{font-size:16px;color:var(--ink2);margin-top:6px}
-@media (prefers-reduced-motion:reduce){.coin{animation:none}}
-@media (max-width:560px){.token{flex-direction:column;text-align:center}.ca{flex-direction:column;align-items:stretch}.ca code{text-align:center}}
 @media (max-width:560px){.apps{grid-template-columns:1fr}.brand{font-size:12px}.brand .logo{width:34px;height:34px}}
 </style>
 </head>
@@ -71,30 +54,12 @@ footer a{color:var(--gold);text-decoration:none}
   </div>
   <div class="apps">
     <a class="app" href="farm/"><img class="ico" id="farmIco" alt=""><b>Farm</b><small>Early access: join the whitelist on X to claim your spot. The farm opens soon.</small><span class="go">Join whitelist</span></a>
-    <a class="app" href="bridge/"><span class="ico">⇅</span><b>Bridge</b><small>Bring ETH from Ethereum to Robinhood Chain. ETH pays the gas for your farm work.</small><span class="go">Open bridge</span></a>
   </div>
-  <section class="token" aria-labelledby="tokenTitle">
-    <div class="coin"><img src="assets/logo.svg" alt=""></div>
-    <div class="token-body">
-      <h2 id="tokenTitle">Official <b>$NORITA</b></h2>
-      <p class="token-sub">The harvest token of Norita. Contract address:</p>
-      <div class="ca"><code id="ca">0x38bdcfcd75da18f8364553a90eea9e4a8a0cd122</code><button id="copyCa" type="button">Copy</button></div>
-      <p class="warn">This is the only official $NORITA. Always check the full address before you buy.</p>
-    </div>
-  </section>
 </main>
 <footer class="outline">Norita · a little farm on Robinhood Chain · <a href="https://x.com/noritafarm" target="_blank" rel="noopener">@noritafarm</a></footer>
 <script src="assets/video-modal.js"></script>
 <script src="farm/scene.js"></script>
 <script src="farm/sprites.js"></script>
 <script>document.getElementById("farmIco").src = window.FARM_SPRITES.corn;</script>
-<script>
-  document.getElementById("copyCa").onclick = async (e) => {
-    const b = e.currentTarget, ca = document.getElementById("ca").textContent.trim();
-    try { await navigator.clipboard.writeText(ca); b.textContent = "Copied!"; }
-    catch { getSelection().selectAllChildren(document.getElementById("ca")); b.textContent = "Select & copy"; }
-    setTimeout(() => (b.textContent = "Copy"), 1800);
-  };
-</script>
 </body>
 </html>
