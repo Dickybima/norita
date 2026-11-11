@@ -6,8 +6,6 @@ night and four seasons.
 
 X: [@noritafarm](https://x.com/noritafarm)
 
-Official $NORITA contract address: `0x1163f178376c8908f8335b7edf174aebb9bdfb3e`
-
 ## What's in this repo
 
 | Path | What it is |
