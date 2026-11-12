@@ -106,6 +106,18 @@ summary::after{content:"+";font:14px var(--pixel);color:var(--wood)}
 details[open] summary::after{content:"−"}
 details p{padding:0 14px 12px;color:var(--ink2);font-size:19px}
 
+section.panel.token{display:flex;align-items:center;gap:22px;padding:22px 26px}
+.coin{flex:none;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#ffe08a,#f2b53a 45%,#c7861c);
+  border:4px solid #6b3f0c;box-shadow:inset 0 0 0 3px #b8771a,0 5px 0 rgba(40,20,5,.4);animation:spin 4s ease-in-out infinite}
+.coin img{width:66px;height:66px}
+@keyframes spin{0%,70%,100%{transform:scaleX(1)}80%{transform:scaleX(.08)}90%{transform:scaleX(1)}}
+.token-body{flex:1;min-width:0}
+.token-sub{color:var(--ink2);margin-top:12px}
+.ca{display:flex;align-items:center;gap:8px;margin-top:6px;background:var(--paper2);border:3px solid var(--paper-edge);border-radius:6px;padding:6px 6px 6px 12px}
+.ca code{flex:1;min-width:0;font:15px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);word-break:break-all;user-select:all}
+.ca button{flex:none;font:400 20px 'Jersey 10',sans-serif;background:var(--leaf);color:#1f3a10;border:3px solid var(--ink);border-radius:6px;padding:3px 14px;box-shadow:0 3px 0 var(--ink);cursor:pointer}
+.ca button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.warn{font-size:17px;color:var(--ink2);margin-top:8px}
 section.panel.join{text-align:center;background:repeating-linear-gradient(0deg,var(--wood) 0 7px,var(--wood2) 7px 9px);box-shadow:0 6px 0 rgba(40,20,5,.45)}
 .join h2{background:var(--paper);color:var(--ink);border-color:var(--wood-d)}
 .join p{color:var(--cream);font-size:23px;margin:14px auto 18px;max-width:560px;text-shadow:0 2px 0 rgba(0,0,0,.35)}
@@ -135,6 +147,9 @@ footer a.x{color:var(--gold)}
   .bar .vlabel{display:none}
   section.panel{padding:20px 16px}
   .steps,.seasons,.road{grid-template-columns:1fr}
+  section.panel.token{flex-direction:column;text-align:center}
+  .ca{flex-direction:column;align-items:stretch}
+  .ca code{text-align:center;font-size:14px}
   .crops{grid-template-columns:repeat(2,1fr);gap:10px}
   .crop{padding:12px 8px}
   .crop dl{font-size:17px;gap:0 6px}
@@ -146,6 +161,7 @@ footer a.x{color:var(--gold)}
   <div class="bar">
     <a href="#" class="brand outline"><img class="logo px" src="assets/logo.svg" alt=""><span>Nori<b>ta</b></span></a>
     <nav class="menu outline" id="menu" aria-label="Sections">
+      <a href="#token">$NRTA</a>
       <a href="#how">How to Play</a>
       <a href="#crops">Crops</a>
       <a href="#seasons">Seasons</a>
@@ -174,6 +190,15 @@ footer a.x{color:var(--gold)}
 </div>
 
 <main>
+  <section class="panel token" id="token" aria-labelledby="tokenTitle">
+    <div class="coin"><img class="px" src="assets/logo.svg" alt=""></div>
+    <div class="token-body">
+      <h2 id="tokenTitle">Official $NRTA</h2>
+      <p class="token-sub">The harvest token of Norita. Contract address:</p>
+      <div class="ca"><code id="ca">0xe4ff0bf121940467f44f51412d40a8549b40d8cc</code><button id="copyCa" type="button">Copy</button></div>
+      <p class="warn">This is the only official $NRTA. Always check the full address before you buy.</p>
+    </div>
+  </section>
 
   <section class="panel" id="how">
     <h2>How to Play</h2>
@@ -240,7 +265,7 @@ footer a.x{color:var(--gold)}
 </main>
 
 <footer class="outline">
-  <nav><a href="#how">How to Play</a><a href="#crops">Crops</a><a href="#seasons">Seasons</a><a href="#roadmap">Roadmap</a><a href="#faq">FAQ</a><a href="farm/">Farm</a></nav>
+  <nav><a href="#token">$NRTA</a><a href="#how">How to Play</a><a href="#crops">Crops</a><a href="#seasons">Seasons</a><a href="#roadmap">Roadmap</a><a href="#faq">FAQ</a><a href="farm/">Farm</a></nav>
   <span>Norita · a little farm on Robinhood Chain · <a class="x" href="https://x.com/noritafarm" target="_blank" rel="noopener">@noritafarm</a></span>
 </footer>
 
@@ -276,6 +301,14 @@ footer a.x{color:var(--gold)}
     });
   }
   tick(); setInterval(tick, 2000);
+
+  // copy the contract address
+  $("copyCa").onclick = async (e) => {
+    const b = e.currentTarget, ca = $("ca").textContent.trim();
+    try { await navigator.clipboard.writeText(ca); b.textContent = "Copied!"; }
+    catch { getSelection().selectAllChildren($("ca")); b.textContent = "Select & copy"; }
+    setTimeout(() => (b.textContent = "Copy"), 1800);
+  };
 
   // mobile menu
   const menu = $("menu"), burger = $("burger");

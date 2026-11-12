@@ -57,9 +57,9 @@ $NRTA is the harvest token of Norita. It's what your crops pay out, and what you
 
 Official contract address:
 
-`0x1163f178376c8908f8335b7edf174aebb9bdfb3e`
+`0xe4ff0bf121940467f44f51412d40a8549b40d8cc`
 
-This is the only official $NRTA. Always check the full address before you buy. We will only ever share it from @noritafarm.
+This is the only official $NRTA. Always check the full address before you buy. You can copy it from our website, and we will only ever share it from @noritafarm.
 
 ## Roadmap
 
