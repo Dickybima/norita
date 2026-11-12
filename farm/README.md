@@ -1,7 +1,7 @@
 # Norita
 
 A cozy pixel-art farming game on Robinhood Chain. Plant crops on your plots, wait for them
-to grow, and harvest them for **NORITA**. Spend NORITA on better seeds and more plots.
+to grow, and harvest them for **NRTA**. Spend NRTA on better seeds and more plots.
 
 Behind the page runs a live farm scene (`scene.js`): a day/night cycle, four seasons,
 a farmer, chickens, a windmill and weather. The world clock follows real time
@@ -13,11 +13,11 @@ The page loads ethers from `../bridge/vendor/`, so keep both folders together.
 
 ## How it plays
 
-- **Start**: one-time `join()` gives 20 NORITA and 6 plots.
+- **Start**: one-time `join()` gives 20 NRTA and 6 plots.
 - **Plant**: pick a seed, tap an empty plot (or *Plant all empty*). The seed cost is burned.
 - **Harvest**: once a crop is grown, *Harvest all* mints its reward and gives XP.
 - **Level up**: every 100 XP is a level. Higher levels unlock better seeds.
-- **Expand**: buy plots up to 12. The first extra plot costs 50 NORITA and the price doubles each time.
+- **Expand**: buy plots up to 12. The first extra plot costs 50 NRTA and the price doubles each time.
 
 | Seed | Cost | Reward | Grow time | XP | Level |
 |---|---|---|---|---|---|
@@ -64,7 +64,7 @@ No wallet is needed.
 ## Going live on Robinhood Chain
 
 1. Deploy `contracts/NoritaFarm.sol` (Solidity ^0.8.24, no dependencies) to Robinhood Chain (chain ID 4663, gas in ETH),
-   for example with Remix or Foundry. The contract is also the NORITA ERC-20 token (name "Norita", ticker NORITA).
+   for example with Remix or Foundry. The contract is also the NRTA ERC-20 token (name "Norita", ticker NRTA).
 2. Fill in `farmContract` in `config.js`. The Robinhood Chain network settings are
    already there; check the explorer URL and use a dedicated RPC provider for production.
 3. If you change crops or prices, change them in **both** the contract constructor
@@ -76,7 +76,7 @@ The page reads the whole farm with `getFarm(address)`.
 
 ## Before real money is involved
 
-- NORITA is minted by harvesting with no cap, so its supply grows with play. Plan the
-  economy (sinks, caps, seasons) before NORITA gets a market value.
+- NRTA is minted by harvesting with no cap, so its supply grows with play. Plan the
+  economy (sinks, caps, seasons) before NRTA gets a market value.
 - Bots can farm as well as people. Fine for a game token, a problem for an airdrop.
-- Get the contract audited before listing NORITA anywhere.
+- Get the contract audited before listing NRTA anywhere.

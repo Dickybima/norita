@@ -18,7 +18,7 @@ window.FARM_CONFIG = {
     enabled: true,
     xHandle: "noritafarm", // X account to follow, without @
     postUrl: "https://x.com/noritafarm/status/2120346470385615257", // X post to like and quote
-    quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Robinhood Chain. Plant, grow, harvest $NORITA.",
+    quoteText: "Just joined the Norita whitelist 🌱 A cozy pixel farm on Robinhood Chain. Plant, grow, harvest $NRTA.",
     // false: whitelisted players get their spot but cannot play yet (they can watch the video).
     // Set to true when early access opens.
     gameOpen: false,

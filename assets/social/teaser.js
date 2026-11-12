@@ -65,7 +65,7 @@ const at=(season,day,hour)=>((season*7+day-1+28*1000)+hour/24-0.3)*240*1000;
  for (const i of [0,1,2,3,4,5]) { await tap(`[data-plot="${i}"]`,{wait:260}); }
  await W(300);
  await cap('Watch them grow'); await p.evaluate(()=>window.__speed=9); await W(3400); await p.evaluate(()=>window.__speed=1);
- await cap('Harvest $NORITA'); await tap('#harvestAll'); await W(1500);
+ await cap('Harvest $NRTA'); await tap('#harvestAll'); await W(1500);
  await cap(''); await W(150);
  await p.evaluate(()=>{const n=Math.floor(Date.now()/1000);
    localStorage.setItem('norita:farm:guest',JSON.stringify({joined:true,bal:760,xp:255,count:8,plots:[

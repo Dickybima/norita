@@ -2,13 +2,13 @@
 pragma solidity ^0.8.24;
 
 /// @title NoritaFarm: an on-chain farming game for Robinhood Chain.
-/// @notice The contract is also the NORITA ERC-20 token. Players plant crops on plots,
-/// wait for them to grow (block.timestamp), and harvest them for newly minted NORITA.
-/// Seeds and new plots are paid for by burning NORITA.
+/// @notice The contract is also the NRTA ERC-20 token. Players plant crops on plots,
+/// wait for them to grow (block.timestamp), and harvest them for newly minted NRTA.
+/// Seeds and new plots are paid for by burning NRTA.
 contract NoritaFarm {
     // ---------------------------------------------------------------- ERC-20
     string public constant name = "Norita";
-    string public constant symbol = "NORITA";
+    string public constant symbol = "NRTA";
     uint8 public constant decimals = 18;
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
@@ -55,7 +55,7 @@ contract NoritaFarm {
     }
 
     function _burn(address from, uint256 value) internal {
-        require(balanceOf[from] >= value, "not enough NORITA");
+        require(balanceOf[from] >= value, "not enough NRTA");
         unchecked {
             balanceOf[from] -= value;
             totalSupply -= value;
@@ -65,8 +65,8 @@ contract NoritaFarm {
 
     // ---------------------------------------------------------------- game
     struct Crop {
-        uint256 cost;     // NORITA burned to plant
-        uint256 reward;   // NORITA minted on harvest
+        uint256 cost;     // NRTA burned to plant
+        uint256 reward;   // NRTA minted on harvest
         uint32 growTime;  // seconds
         uint32 xp;        // XP on harvest
         uint32 minLevel;  // level needed to plant
@@ -118,7 +118,7 @@ contract NoritaFarm {
         return FIRST_PLOT_PRICE << (n - START_PLOTS);
     }
 
-    /// @notice One-time start: gives the starter NORITA and the first plots.
+    /// @notice One-time start: gives the starter NRTA and the first plots.
     function join() external {
         require(!joined[msg.sender], "already joined");
         joined[msg.sender] = true;
@@ -184,7 +184,7 @@ contract NoritaFarm {
 
     /// @notice Everything the game page needs in one call.
     /// @return crop per plot (crop id + 1, 0 = empty), plantedAt per plot,
-    /// the player's plot count, XP and NORITA balance.
+    /// the player's plot count, XP and NRTA balance.
     function getFarm(address player)
         external
         view

@@ -163,7 +163,7 @@ footer a.x{color:var(--gold)}
   <img class="hero-logo px" src="assets/logo.svg" alt="Norita logo">
   <div class="sign">
     <h1 class="outline">Welcome to Norita</h1>
-    <p class="lead">A little pixel farm on Robinhood Chain. Grow crops, harvest NORITA and watch the seasons turn.</p>
+    <p class="lead">A little pixel farm on Robinhood Chain. Grow crops, harvest NRTA and watch the seasons turn.</p>
   </div>
   <div class="chips"><span class="chip">5 crops</span><span class="chip">Up to 12 plots</span><span class="chip">4 seasons</span><span class="chip">Day &amp; night</span></div>
   <div class="cta-row">
@@ -179,18 +179,18 @@ footer a.x{color:var(--gold)}
     <h2>How to Play</h2>
     <p class="intro">Norita is easy to learn: four steps from an empty field to a busy farm.</p>
     <div class="grid steps">
-      <div class="card step"><span class="num">1</span><img class="px" data-sprite="sprout" alt=""><h3>Get your land</h3><p>Start with 6 plots of tilled soil and 20 NORITA to buy your first seeds.</p></div>
+      <div class="card step"><span class="num">1</span><img class="px" data-sprite="sprout" alt=""><h3>Get your land</h3><p>Start with 6 plots of tilled soil and 20 NRTA to buy your first seeds.</p></div>
       <div class="card step"><span class="num">2</span><img class="px" data-sprite="turnip" alt=""><h3>Plant seeds</h3><p>Pick a seed from the shop and tap an empty plot, or plant every empty plot at once.</p></div>
-      <div class="card step"><span class="num">3</span><img class="px" data-sprite="corn" alt=""><h3>Harvest</h3><p>Crops grow in real time. When they sparkle, harvest them for NORITA and XP.</p></div>
+      <div class="card step"><span class="num">3</span><img class="px" data-sprite="corn" alt=""><h3>Harvest</h3><p>Crops grow in real time. When they sparkle, harvest them for NRTA and XP.</p></div>
       <div class="card step"><span class="num">4</span><img class="px" data-sprite="pumpkin" alt=""><h3>Grow your farm</h3><p>Level up to unlock better seeds and buy more land, up to 12 plots.</p></div>
     </div>
   </section>
 
   <section class="panel" id="crops">
     <h2>Crops</h2>
-    <p class="intro">Every seed costs NORITA to plant and pays back more at harvest. Bigger crops take longer and need a higher farmer level.</p>
+    <p class="intro">Every seed costs NRTA to plant and pays back more at harvest. Bigger crops take longer and need a higher farmer level.</p>
     <div class="grid crops" id="cropList"></div>
-    <p class="note">Every 100 XP is one farmer level. Extra land starts at <span id="landPrice">50</span> NORITA and the price doubles for each plot.</p>
+    <p class="note">Every 100 XP is one farmer level. Extra land starts at <span id="landPrice">50</span> NRTA and the price doubles for each plot.</p>
   </section>
 
   <section class="panel" id="seasons">
@@ -220,7 +220,7 @@ footer a.x{color:var(--gold)}
     <h2>FAQ</h2>
     <p class="intro">Questions farmers ask us most.</p>
     <div class="faq">
-      <details open><summary>What is Norita?</summary><p>A cozy pixel farming game. You plant seeds, wait for them to grow and harvest them for NORITA, then use it to unlock better seeds and more land.</p></details>
+      <details open><summary>What is Norita?</summary><p>A cozy pixel farming game. You plant seeds, wait for them to grow and harvest them for NRTA, then use it to unlock better seeds and more land.</p></details>
       <details><summary>Which network does Norita use?</summary><p>Robinhood Chain (chain ID 4663). Gas is paid in ETH, so you'll need a little ETH on Robinhood Chain to farm on-chain.</p></details>
       <details><summary>How do I join the whitelist?</summary><p>Open the farm page and finish three steps on X: follow @noritafarm, like the pinned post and quote it. Then claim your spot.</p></details>
       <details><summary>When can I play?</summary><p>Early access opens soon for whitelisted farmers. Follow @noritafarm on X for the launch date.</p></details>
@@ -258,7 +258,7 @@ footer a.x{color:var(--gold)}
   const dur = (s) => (s < 60 ? `${s}s` : s < 3600 ? `${s / 60} min` : `${s / 3600} h`);
   $("cropList").innerHTML = (C.crops || []).map((c) => `
     <div class="card crop"><img class="px" src="${SPR[c.sprite] || ""}" alt=""><h3>${c.name}</h3><span class="lv">Lv ${c.minLevel}</span>
-      <dl><dt>Seed</dt><dd>${c.cost} NORITA</dd><dt>Harvest</dt><dd>${c.reward} NORITA</dd><dt>Grows</dt><dd>${dur(c.growTime)}</dd><dt>XP</dt><dd>+${c.xp}</dd></dl></div>`).join("");
+      <dl><dt>Seed</dt><dd>${c.cost} NRTA</dd><dt>Harvest</dt><dd>${c.reward} NRTA</dd><dt>Grows</dt><dd>${dur(c.growTime)}</dd><dt>XP</dt><dd>+${c.xp}</dd></dl></div>`).join("");
   if (C.firstPlotPrice) $("landPrice").textContent = C.firstPlotPrice;
 
   // live clock and current season, from the same world clock as the background
